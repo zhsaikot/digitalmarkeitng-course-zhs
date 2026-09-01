@@ -2563,14 +2563,45 @@
                     return;
                 }
 
+                // Compress image before saving
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    currentProfileImage = e.target.result;
-                    const preview = document.getElementById('profilePreview');
-                    const placeholder = document.getElementById('profilePreviewPlaceholder');
-                    preview.src = currentProfileImage;
-                    preview.style.display = 'block';
-                    placeholder.style.display = 'none';
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        // Resize image to max 300x300 for profile
+                        const maxSize = 300;
+                        let width = img.width;
+                        let height = img.height;
+                        
+                        if (width > height) {
+                            if (width > maxSize) {
+                                height = (height * maxSize) / width;
+                                width = maxSize;
+                            }
+                        } else {
+                            if (height > maxSize) {
+                                width = (width * maxSize) / height;
+                                height = maxSize;
+                            }
+                        }
+                        
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        // Convert to compressed JPEG
+                        currentProfileImage = canvas.toDataURL('image/jpeg', 0.7);
+                        
+                        const preview = document.getElementById('profilePreview');
+                        const placeholder = document.getElementById('profilePreviewPlaceholder');
+                        preview.src = currentProfileImage;
+                        preview.style.display = 'block';
+                        placeholder.style.display = 'none';
+                    };
+                    img.src = e.target.result;
                 };
                 reader.readAsDataURL(file);
             }
@@ -2597,10 +2628,26 @@
                 updatedAt: new Date().toISOString()
             };
 
-            localStorage.setItem('userProfile', JSON.stringify(profile));
-            updateProfileDisplay();
-            closeProfileModal();
-            showToast('প্রোফাইল সফলভাবে সংরক্ষিত হয়েছে! ✅', 'success');
+            try {
+                localStorage.setItem('userProfile', JSON.stringify(profile));
+                
+                // Verify it was saved
+                const savedProfile = JSON.parse(localStorage.getItem('userProfile'));
+                if (!savedProfile || !savedProfile.image) {
+                    throw new Error('Failed to save profile image');
+                }
+                
+                updateProfileDisplay();
+                closeProfileModal();
+                showToast('প্রোফাইল সফলভাবে সংরক্ষিত হয়েছে! ✅', 'success');
+            } catch (e) {
+                console.error('Error saving profile:', e);
+                if (e.name === 'QuotaExceededError' || e.code === 22) {
+                    showToast('স্টোরেজ পূর্ণ! ছবি খুব বড় অথবা ব্রাউজার স্টোরেজ সীমা অতিক্রম করেছে।', 'error');
+                } else {
+                    showToast('প্রোফাইল সংরক্ষণে সমস্যা হয়েছে। আবার চেষ্টা করুন।', 'error');
+                }
+            }
         }
 
         function updateProfileDisplay() {
