@@ -8,6 +8,8 @@
     <title>ডিজিটাল মার্কেটিং শেখার ট্র্যাকার</title>
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -880,38 +882,182 @@
 
         /* Certificate Styles */
         .certificate-container {
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            border: 10px solid #d97706;
+            background: linear-gradient(135deg, #fff9e6 0%, #fef3c7 50%, #fde68a 100%);
+            border: 20px solid transparent;
+            border-image: linear-gradient(135deg, #d97706, #f59e0b, #d97706, #f59e0b) 1;
             border-radius: 15px;
-            padding: 40px;
+            padding: 50px 40px;
             text-align: center;
             margin: 20px 0;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(217, 119, 6, 0.3);
+            overflow: hidden;
+        }
+        
+        .certificate-container::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 3px solid #d97706;
+            border-radius: 8px;
+            pointer-events: none;
+        }
+
+        .certificate-header {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .certificate-logo {
+            font-size: 4rem;
+            margin-bottom: 15px;
         }
 
         .certificate-title {
-            font-size: 2rem;
+            font-size: 2.5rem;
+            font-weight: 700;
             color: #92400e;
             margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .certificate-subtitle {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: #78350f;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .certificate-body {
+            position: relative;
+            z-index: 1;
+        }
+
+        .certificate-intro {
+            font-size: 1.1rem;
+            color: #78350f;
+            margin-bottom: 15px;
+            font-style: italic;
         }
 
         .certificate-name {
-            font-size: 1.8rem;
+            font-size: 2.5rem;
+            font-weight: 700;
             color: #6366f1;
-            margin: 20px 0;
-            padding: 10px;
-            border-bottom: 2px solid #d97706;
+            margin: 25px 0;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
+            border: 3px solid #6366f1;
+            border-radius: 10px;
             display: inline-block;
+            min-width: 300px;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);
+        }
+
+        .certificate-email {
+            font-size: 1.1rem;
+            color: #4b5563;
+            margin: 15px 0;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .certificate-description {
+            font-size: 1.1rem;
+            color: #78350f;
+            margin: 20px 0;
+            line-height: 1.8;
+        }
+
+        .certificate-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .certificate-stat {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 15px 25px;
+            border-radius: 10px;
+            border: 2px solid #d97706;
+        }
+
+        .certificate-stat-label {
+            font-size: 0.9rem;
+            color: #78350f;
+            margin-bottom: 5px;
+        }
+
+        .certificate-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+
+        .certificate-footer {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .certificate-signature {
+            text-align: center;
+        }
+
+        .signature-line {
+            width: 200px;
+            border-top: 3px solid #d97706;
+            margin: 10px auto;
+        }
+
+        .signature-title {
+            font-size: 0.9rem;
+            color: #78350f;
+            margin-top: 8px;
+            font-weight: 600;
         }
 
         .certificate-date {
             color: #92400e;
-            margin-top: 20px;
+            margin-top: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .certificate-id {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            font-size: 0.75rem;
+            color: #9ca3af;
+        }
+
+        .certificate-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            font-size: 8rem;
+            opacity: 0.05;
+            color: #6366f1;
+            pointer-events: none;
+            z-index: 0;
         }
 
         /* Goal Setting */
@@ -1020,15 +1166,52 @@
             }
 
             .certificate-container {
-                padding: 20px;
+                padding: 25px 15px;
+            }
+
+            .certificate-logo {
+                font-size: 3rem;
             }
 
             .certificate-title {
                 font-size: 1.5rem;
             }
 
+            .certificate-subtitle {
+                font-size: 1rem;
+            }
+
             .certificate-name {
                 font-size: 1.3rem;
+                padding: 10px 20px;
+                min-width: auto;
+            }
+
+            .certificate-email {
+                font-size: 0.9rem;
+            }
+
+            .certificate-stats {
+                gap: 15px;
+            }
+
+            .certificate-stat {
+                padding: 10px 15px;
+            }
+
+            .certificate-footer {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+
+            .signature-line {
+                width: 150px;
+            }
+
+            .modal {
+                padding: 20px;
+                max-width: 95%;
             }
         }
 
@@ -1439,8 +1622,9 @@
             <div class="certificate-container" id="certificateContent">
                 <!-- Certificate will be generated here -->
             </div>
-            <div style="text-align: center; margin-top: 20px;">
-                <button class="btn" onclick="downloadCertificate()">📥 ডাউনলোড করুন</button>
+            <div style="text-align: center; margin-top: 20px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                <button class="btn" onclick="downloadCertificate()" style="background: linear-gradient(135deg, #6366f1, #4f46e5); color: white;">📥 PDF ডাউনলোড</button>
+                <button class="btn" onclick="downloadCertificateAsImage()" style="background: linear-gradient(135deg, #ec4899, #db2777); color: white;">🖼️ ইমেজ ডাউনলোড</button>
             </div>
         </div>
     </div>
@@ -2342,53 +2526,149 @@
                 return;
             }
 
+            const profile = JSON.parse(localStorage.getItem('userProfile') || '{}');
+            const userName = profile.name || 'আপনি';
+            const userEmail = profile.email || '';
+            
             const certificateContent = document.getElementById('certificateContent');
             const today = new Date().toLocaleDateString('bn-BD', { 
                 year: 'numeric', 
                 month: 'long', 
                 day: 'numeric' 
             });
+            
+            const certId = 'CERT-' + Date.now().toString(36).toUpperCase();
 
             certificateContent.innerHTML = `
-                <div class="certificate-title">সার্টিফিকেট অফ কমপ্লিশন</div>
-                <div class="certificate-subtitle">ডিজিটাল মার্কেটিং কোর্স</div>
-                <p>এই সার্টিফিকেট দ্বারা প্রত্যয়িত করা হচ্ছে যে</p>
-                <div class="certificate-name">আপনি</div>
-                <p>সফলভাবে "ডিজিটাল মার্কেটিং শেখার ট্র্যাকার" কোর্স সম্পন্ন করেছেন</p>
-                <p><strong>অগ্রগতি:</strong> ${progress.percentage}% | <strong>কুইজ স্কোর:</strong> ${quizScore}%</p>
-                <div class="certificate-date">তারিখ: ${today}</div>
+                <div class="certificate-watermark">🏆</div>
+                <div class="certificate-header">
+                    <div class="certificate-logo">🎓</div>
+                    <div class="certificate-title">সার্টিফিকেট অফ কমপ্লিশন</div>
+                    <div class="certificate-subtitle">ডিজিটাল মার্কেটিং কোর্স</div>
+                </div>
+                <div class="certificate-body">
+                    <p class="certificate-intro">এই সার্টিফিকেট দ্বারা প্রত্যয়িত করা হচ্ছে যে</p>
+                    <div class="certificate-name">${sanitizeInput(userName)}</div>
+                    ${userEmail ? `<div class="certificate-email">📧 ${sanitizeInput(userEmail)}</div>` : ''}
+                    <p class="certificate-description">সফলভাবে "ডিজিটাল মার্কেটিং শেখার ট্র্যাকার" কোর্স সম্পন্ন করেছেন</p>
+                    <div class="certificate-stats">
+                        <div class="certificate-stat">
+                            <div class="certificate-stat-label">অগ্রগতি</div>
+                            <div class="certificate-stat-value">${progress.percentage}%</div>
+                        </div>
+                        <div class="certificate-stat">
+                            <div class="certificate-stat-label">কুইজ স্কোর</div>
+                            <div class="certificate-stat-value">${quizScore}%</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="certificate-footer">
+                    <div class="certificate-signature">
+                        <div class="signature-line"></div>
+                        <div class="signature-title">কোর্স ইন্সট্রাক্টর</div>
+                    </div>
+                    <div class="certificate-date">📅 তারিখ: ${today}</div>
+                    <div class="certificate-signature">
+                        <div class="signature-line"></div>
+                        <div class="signature-title">প্রোগ্রাম ডিরেক্টর</div>
+                    </div>
+                </div>
+                <div class="certificate-id">${certId}</div>
             `;
 
             document.getElementById('certificateModal').classList.add('show');
         }
 
-        // Download Certificate
-        function downloadCertificate() {
+        // Download Certificate as PDF
+        async function downloadCertificate() {
             const certContent = document.getElementById('certificateContent');
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(`
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>ডিজিটাল মার্কেটিং সার্টিফিকেট</title>
-                    <style>
-                        body { font-family: 'Hind Siliguri', sans-serif; padding: 40px; }
-                        .certificate-container { 
-                            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-                            border: 10px solid #d97706;
-                            border-radius: 15px;
-                            padding: 40px;
-                            text-align: center;
-                        }
-                    </style>
-                </head>
-                <body>
-                    ${certContent.innerHTML}
-                </body>
-                </html>
-            `);
-            printWindow.document.close();
-            printWindow.print();
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ তৈরি হচ্ছে...';
+            btn.disabled = true;
+            
+            try {
+                // Use html2canvas to capture the certificate
+                const canvas = await html2canvas(certContent, {
+                    scale: 2,
+                    backgroundColor: '#fff9e6',
+                    useCORS: true,
+                    logging: false
+                });
+                
+                // Create PDF
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF({
+                    orientation: 'landscape',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+                
+                const imgData = canvas.toDataURL('image/png');
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = pdf.internal.pageSize.getHeight();
+                
+                // Calculate dimensions to fit the certificate properly
+                const imgWidth = canvas.width;
+                const imgHeight = canvas.height;
+                const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+                const finalWidth = imgWidth * ratio;
+                const finalHeight = imgHeight * ratio;
+                
+                // Center the image
+                const x = (pdfWidth - finalWidth) / 2;
+                const y = (pdfHeight - finalHeight) / 2;
+                
+                pdf.addImage(imgData, 'PNG', x, y, finalWidth, finalHeight);
+                pdf.save('certificate.pdf');
+                
+                showToast('✅ সার্টিফিকেট ডাউনলোড হয়েছে!', 'success');
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+                showToast('❌ সার্টিফিকেট ডাউনলোডে সমস্যা হয়েছে', 'error');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+        
+        // Download Certificate as Image
+        async function downloadCertificateAsImage() {
+            const certContent = document.getElementById('certificateContent');
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ তৈরি হচ্ছে...';
+            btn.disabled = true;
+            
+            try {
+                // Use html2canvas to capture the certificate
+                const canvas = await html2canvas(certContent, {
+                    scale: 2,
+                    backgroundColor: '#fff9e6',
+                    useCORS: true,
+                    logging: false
+                });
+                
+                // Convert to blob and download
+                canvas.toBlob((blob) => {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'certificate.png';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                    
+                    showToast('✅ সার্টিফিকেট ডাউনলোড হয়েছে!', 'success');
+                }, 'image/png');
+            } catch (error) {
+                console.error('Error generating image:', error);
+                showToast('❌ সার্টিফিকেট ডাউনলোডে সমস্যা হয়েছে', 'error');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
         }
 
         // Close Modal
