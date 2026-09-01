@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ডিজিটাল মার্কেটিং শেখার ট্র্যাকার - ফেসবুক এবং ইনস্টাগ্রাম মার্কেটিং শিখুন">
+    <meta name="theme-color" content="#6366f1">
     <title>ডিজিটাল মার্কেটিং শেখার ট্র্যাকার</title>
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -24,6 +26,20 @@
             --text-dark: #1f2937;
             --text-light: #6b7280;
             --white: #ffffff;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --border-color: #e5e7eb;
+        }
+
+        [data-theme="dark"] {
+            --background-gradient: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
+            --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            --text-dark: #f3f4f6;
+            --text-light: #9ca3af;
+            --white: #1f2937;
+            --bg-primary: #1f2937;
+            --bg-secondary: #374151;
+            --border-color: #4b5563;
         }
 
         body {
@@ -32,6 +48,20 @@
             min-height: 100vh;
             color: var(--text-dark);
             line-height: 1.6;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* Focus indicators for accessibility */
+        *:focus-visible {
+            outline: 3px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible {
+            outline: 3px solid var(--primary-color);
+            outline-offset: 2px;
         }
 
         .container {
@@ -45,6 +75,7 @@
             color: var(--white);
             padding: 40px 20px;
             margin-bottom: 30px;
+            position: relative;
         }
 
         header h1 {
@@ -59,9 +90,93 @@
             opacity: 0.95;
         }
 
+        /* Theme Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--white);
+            border: 2px solid var(--border-color);
+            padding: 10px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Search and Filter Bar */
+        .search-filter-bar {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            font-size: 1rem;
+            font-family: 'Hind Siliguri', sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-dark);
+            transition: border-color 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-color);
+        }
+
+        .filter-select {
+            padding: 12px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            font-size: 1rem;
+            font-family: 'Hind Siliguri', sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+
+        /* Streak Counter */
+        .streak-container {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(245, 158, 11, 0.3);
+        }
+
+        .streak-fire {
+            font-size: 1.5rem;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
@@ -98,6 +213,10 @@
             color: var(--secondary-color);
         }
 
+        .stat-card.streak .value {
+            color: var(--warning-color);
+        }
+
         .chart-container {
             background: var(--white);
             border-radius: 20px;
@@ -127,6 +246,10 @@
 
         .module-card:hover {
             box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .module-card.hidden {
+            display: none;
         }
 
         .module-header {
@@ -171,7 +294,7 @@
             align-items: flex-start;
             gap: 12px;
             padding: 12px 0;
-            border-bottom: 1px solid #f3f4f6;
+            border-bottom: 1px solid var(--border-color);
             transition: all 0.3s ease;
         }
 
@@ -180,7 +303,7 @@
         }
 
         .checklist-item:hover {
-            background: #f9fafb;
+            background: var(--bg-secondary);
             padding-left: 10px;
             border-radius: 8px;
         }
@@ -197,6 +320,8 @@
             opacity: 0;
             position: absolute;
             cursor: pointer;
+            width: 100%;
+            height: 100%;
         }
 
         .checkmark {
@@ -205,13 +330,13 @@
             left: 0;
             height: 22px;
             width: 22px;
-            background-color: #e5e7eb;
+            background-color: var(--border-color);
             border-radius: 6px;
             transition: all 0.3s ease;
         }
 
         .custom-checkbox:hover input ~ .checkmark {
-            background-color: #d1d5db;
+            background-color: var(--text-light);
         }
 
         .custom-checkbox input:checked ~ .checkmark {
@@ -253,10 +378,18 @@
             margin-top: 20px;
         }
 
+        [data-theme="dark"] .quiz-section {
+            background: linear-gradient(135deg, #78350f 0%, #92400e 100%);
+        }
+
         .quiz-section h4 {
             color: #92400e;
             margin-bottom: 15px;
             font-size: 1.1rem;
+        }
+
+        [data-theme="dark"] .quiz-section h4 {
+            color: #fde68a;
         }
 
         .quiz-question {
@@ -267,6 +400,10 @@
             font-weight: 600;
             margin-bottom: 10px;
             color: #78350f;
+        }
+
+        [data-theme="dark"] .quiz-question p {
+            color: #fde68a;
         }
 
         .quiz-options {
@@ -326,6 +463,15 @@
             display: block;
         }
 
+        .quiz-explanation {
+            margin-top: 10px;
+            padding: 12px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            border-left: 3px solid var(--primary-color);
+        }
+
         .btn {
             background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
             color: var(--white);
@@ -344,12 +490,23 @@
             box-shadow: 0 5px 20px rgba(99, 102, 241, 0.4);
         }
 
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .btn-secondary {
             background: linear-gradient(135deg, var(--secondary-color), #db2777);
         }
 
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+
         .progress-bar-container {
-            background: #e5e7eb;
+            background: var(--border-color);
             border-radius: 50px;
             height: 12px;
             overflow: hidden;
@@ -363,26 +520,206 @@
             transition: width 0.5s ease;
         }
 
-        .reset-btn {
+        /* Action Buttons Container */
+        .action-buttons {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .action-btn {
             background: var(--white);
             color: var(--text-dark);
-            border: 2px solid var(--text-light);
-            padding: 12px 25px;
+            border: 2px solid var(--border-color);
+            padding: 12px 20px;
             border-radius: 50px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            font-family: 'Hind Siliguri', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .reset-btn:hover {
-            background: var(--text-dark);
-            color: var(--white);
+        .action-btn:hover {
+            transform: translateY(-2px);
         }
 
+        .action-btn.export {
+            background: linear-gradient(135deg, var(--success-color), #059669);
+            color: white;
+            border: none;
+        }
+
+        .action-btn.import {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border: none;
+        }
+
+        .action-btn.certificate {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+            border: none;
+        }
+
+        .action-btn.delete {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal h2 {
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        /* Certificate Styles */
+        .certificate-container {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 10px solid #d97706;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .certificate-title {
+            font-size: 2rem;
+            color: #92400e;
+            margin-bottom: 10px;
+        }
+
+        .certificate-subtitle {
+            font-size: 1.2rem;
+            color: #78350f;
+            margin-bottom: 20px;
+        }
+
+        .certificate-name {
+            font-size: 1.8rem;
+            color: #6366f1;
+            margin: 20px 0;
+            padding: 10px;
+            border-bottom: 2px solid #d97706;
+            display: inline-block;
+        }
+
+        .certificate-date {
+            color: #92400e;
+            margin-top: 20px;
+        }
+
+        /* Goal Setting */
+        .goal-section {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .goal-section h3 {
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .goal-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .goal-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-family: 'Hind Siliguri', sans-serif;
+            font-size: 1rem;
+            background: var(--bg-secondary);
+            color: var(--text-dark);
+        }
+
+        .time-tracker {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .time-tracker p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Privacy Policy Section */
+        .privacy-section {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 40px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .privacy-section h2 {
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .privacy-section p {
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        /* Responsive Design Enhancements */
         @media (max-width: 768px) {
             header h1 {
                 font-size: 1.8rem;
@@ -396,27 +733,129 @@
                 flex-direction: column;
                 align-items: flex-start;
             }
+
+            .search-filter-bar {
+                flex-direction: column;
+            }
+
+            .search-input,
+            .filter-select {
+                width: 100%;
+            }
+
+            .action-buttons {
+                bottom: 10px;
+                right: 10px;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+
+            .action-btn {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+            }
+
+            .theme-toggle {
+                top: 10px;
+                right: 10px;
+                padding: 8px 12px;
+            }
+
+            .certificate-container {
+                padding: 20px;
+            }
+
+            .certificate-title {
+                font-size: 1.5rem;
+            }
+
+            .certificate-name {
+                font-size: 1.3rem;
+            }
         }
 
-        .export-btn {
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+
+            .stat-card .value {
+                font-size: 2rem;
+            }
+
+            .module-card {
+                padding: 20px;
+            }
+        }
+
+        /* Screen Reader Only */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--border-color);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Toast Notifications */
+        .toast-container {
             position: fixed;
-            bottom: 30px;
-            left: 30px;
-            background: linear-gradient(135deg, var(--success-color), #059669);
-            color: var(--white);
-            border: none;
-            padding: 12px 25px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            font-family: 'Hind Siliguri', sans-serif;
+            top: 80px;
+            right: 20px;
+            z-index: 3000;
         }
 
-        .export-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        .toast {
+            background: var(--white);
+            color: var(--text-dark);
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s ease;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .toast.error {
+            border-left-color: #ef4444;
+        }
+
+        .toast.warning {
+            border-left-color: var(--warning-color);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
         .lecture-content {
@@ -425,6 +864,10 @@
             padding: 25px;
             margin-bottom: 25px;
             border-left: 4px solid var(--primary-color);
+        }
+
+        [data-theme="dark"] .lecture-content {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d4a6f 100%);
         }
 
         .lecture-content h3 {
@@ -487,11 +930,11 @@
         .comparison-table td {
             padding: 15px;
             text-align: left;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .comparison-table tbody tr:hover {
-            background: #f9fafb;
+            background: var(--bg-secondary);
         }
 
         .persona-card {
@@ -537,14 +980,51 @@
         .lecture-container.show {
             display: block;
         }
+
+        /* Hidden file input for import */
+        #importInput {
+            display: none;
+        }
     </style>
 </head>
 <body>
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" class="sr-only" style="position:absolute;left:-9999px;">মূল কন্টেন্টে যান</a>
+
     <div class="container">
+        <!-- Theme Toggle -->
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="থিম পরিবর্তন করুন" title="থিম পরিবর্তন করুন">
+            🌓
+        </button>
+
         <header>
             <h1>🎯 ডিজিটাল মার্কেটিং শেখার ট্র্যাকার</h1>
             <p>ফেসবুক এবং ইনস্টাগ্রাম মার্কেটিং শিখুন এবং আপনার অগ্রগতি ট্র্যাক করুন</p>
         </header>
+
+        <!-- Streak Counter -->
+        <div class="streak-container" role="status" aria-live="polite">
+            <span class="streak-fire">🔥</span>
+            <span><strong>স্ট্রিক:</strong> <span id="streakCount">0</span> দিন</span>
+        </div>
+
+        <!-- Search and Filter -->
+        <div class="search-filter-bar" role="search">
+            <input 
+                type="text" 
+                class="search-input" 
+                id="searchInput" 
+                placeholder="মডিউল বা টপিক খুঁজুন..." 
+                aria-label="মডিউল অনুসন্ধান"
+                oninput="filterModules()"
+            >
+            <select class="filter-select" id="filterSelect" onchange="filterModules()" aria-label="মডিউল ফিল্টার">
+                <option value="all">সব মডিউল</option>
+                <option value="completed">সম্পন্ন করা</option>
+                <option value="incomplete">অসম্পূর্ণ</option>
+                <option value="notstarted">শুরু হয়নি</option>
+            </select>
+        </div>
 
         <div class="dashboard-grid">
             <div class="stat-card">
@@ -563,18 +1043,101 @@
 
         <div class="chart-container">
             <h2>📊 আপনার শেখার অগ্রগতি</h2>
-            <canvas id="progressChart"></canvas>
+            <canvas id="progressChart" role="img" aria-label="অগ্রগতি চার্ট"></canvas>
         </div>
 
-        <div class="modules-container" id="modulesContainer">
+        <!-- Goal Setting Section -->
+        <div class="goal-section">
+            <h3>🎯 দৈনিক লক্ষ্য</h3>
+            <div class="goal-input-group">
+                <input 
+                    type="number" 
+                    class="goal-input" 
+                    id="dailyGoal" 
+                    min="1" 
+                    max="50" 
+                    placeholder="প্রতিদিন কতটি পাঠ সম্পন্ন করবেন?"
+                    aria-label="দৈনিক লক্ষ্য সেট করুন"
+                >
+                <button class="btn btn-small" onclick="setDailyGoal()">সেট করুন</button>
+            </div>
+            <div id="goalProgress" class="time-tracker" style="display:none;">
+                <p>আজকের অগ্রগতি: <span id="todayProgress">0</span>/<span id="todayGoal">0</span></p>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="goalProgressBar" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modules-container" id="modulesContainer" role="main" aria-label="শেখার মডিউলসমূহ">
             <!-- Modules will be dynamically loaded here -->
+        </div>
+
+        <!-- Privacy Policy Section -->
+        <div class="privacy-section">
+            <h2>🔒 গোপনীয়তা নীতি</h2>
+            <p>আপনার সমস্ত ডেটা শুধুমাত্র আপনার ব্রাউজারে সংরক্ষিত হয় (localStorage)। আমরা কোনো তথ্য সংগ্রহ বা সংরক্ষণ করি না।</p>
+            <p>আপনি যেকোনো সময় আপনার ডেটা এক্সপোর্ট করতে পারেন বা স্থায়ীভাবে মুছে ফেলতে পারেন।</p>
         </div>
     </div>
 
-    <button class="export-btn" onclick="exportProgress()">📥 রিপোর্ট ডাউনলোড করুন</button>
-    <button class="reset-btn" onclick="resetProgress()">🔄 রিসেট করুন</button>
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+        <button class="action-btn export" onclick="exportProgress()" aria-label="ডেটা এক্সপোর্ট করুন">
+            📥 এক্সপোর্ট
+        </button>
+        <button class="action-btn import" onclick="document.getElementById('importInput').click()" aria-label="ডেটা ইম্পোর্ট করুন">
+            📤 ইম্পোর্ট
+        </button>
+        <button class="action-btn certificate" onclick="showCertificate()" aria-label="সার্টিফিকেট দেখুন">
+            🏆 সার্টিফিকেট
+        </button>
+        <button class="action-btn delete" onclick="confirmDelete()" aria-label="সব ডেটা মুছুন">
+            🗑️ ডিলিট
+        </button>
+    </div>
+
+    <!-- Hidden File Input for Import -->
+    <input type="file" id="importInput" accept=".json" onchange="importProgress(event)" aria-hidden="true">
+
+    <!-- Certificate Modal -->
+    <div class="modal-overlay" id="certificateModal" role="dialog" aria-labelledby="certTitle" aria-modal="true">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal('certificateModal')" aria-label="বন্ধ করুন">&times;</button>
+            <h2 id="certTitle">🏆 আপনার সার্টিফিকেট</h2>
+            <div class="certificate-container" id="certificateContent">
+                <!-- Certificate will be generated here -->
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn" onclick="downloadCertificate()">📥 ডাউনলোড করুন</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteModal" role="alertdialog" aria-labelledby="deleteTitle" aria-modal="true">
+        <div class="modal">
+            <h2 id="deleteTitle">⚠️ সতর্কবার্তা</h2>
+            <p>আপনি কি নিশ্চিত যে আপনি সব ডেটা স্থায়ীভাবে মুছে ফেলতে চান? এই কাজটি পূর্বাবস্থায় ফেরানো যাবে না।</p>
+            <div style="display: flex; gap: 15px; margin-top: 20px; justify-content: flex-end;">
+                <button class="btn btn-secondary" onclick="closeModal('deleteModal')">বাতিল</button>
+                <button class="btn delete" onclick="deleteAllData()">হ্যাঁ, মুছে ফেলুন</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer" aria-live="polite"></div>
 
     <script>
+        // Sanitize HTML to prevent XSS
+        function sanitizeHTML(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        // Module Data
         const modules = [
             {
                 id: 1,
@@ -699,576 +1262,372 @@
                         "শুধুমাত্র ফেসবুকে বিজ্ঞাপন দেওয়া",
                         "কোনো ইন্টারনেট প্রয়োজন নেই"
                     ],
-                    correct: 1
+                    correct: 1,
+                    explanation: "ডিজিটাল মার্কেটিং এর মূল সুবিধা হলো কম খরচে বেশি মানুষের কাছে পৌঁছানো এবং নির্দিষ্ট অডিয়েন্সকে টার্গেট করা।"
                 }
             },
             {
                 id: 2,
-                title: "ফেসবুক পেজ সেটআপ ও অপ্টিমাইজেশন",
+                title: "ফেসবুক পেজ সেটআপ",
                 badge: "মডিউল ২",
                 lectureContent: `
                     <div class="lecture-content">
-                        <h3>📘 ফেসবুক পেজ সেটআপ ও অপ্টিমাইজেশন - বিস্তারিত পাঠ</h3>
+                        <h3>📘 ফেসবুক পেজ সেটআপ এবং অপ্টিমাইজেশন</h3>
                         
                         <div class="lecture-section">
-                            <h4>১. পেজ তৈরি ও অপ্টিমাইজেশন</h4>
+                            <h4>ফেসবুক পেজ তৈরির ধাপসমূহ:</h4>
+                            <ol>
+                                <li>ফেসবুক অ্যাকাউন্টে লগইন করুন</li>
+                                <li>মেনু থেকে 'Pages' এ ক্লিক করুন</li>
+                                <li>'Create New Page' এ ক্লিক করুন</li>
+                                <li>পেজের নাম, ক্যাটাগরি এবং বিবরণ পূরণ করুন</li>
+                                <li>প্রোফাইল ছবি এবং কভার ফটো যুক্ত করুন</li>
+                                <li>পেজের সেটিংস কনফিগার করুন</li>
+                            </ol>
                             
-                            <h5>ফেসবুক বিজনেস পেজ তৈরি:</h5>
-                            <p>Personal Profile-এর "Pages" অপশন থেকে "Create New Page"-এ ক্লিক করুন। ব্যবসার নাম, প্রাসঙ্গিক Category (যেমন: E-commerce website, Clothing Store) এবং একটি সংক্ষিপ্ত Bio দিয়ে পেজটি খুলুন।</p>
-
-                            <h5>প্রোফাইল ছবি ও কভার ফটো:</h5>
+                            <h5>প্রোফাইল ছবি নির্বাচন:</h5>
                             <ul>
-                                <li><strong>Profile Picture (170x170 px):</strong> পরিষ্কার ও হাই-রেজুলেশনের ব্র্যান্ড লোগো ব্যবহার করুন।</li>
-                                <li><strong>Cover Photo (820x312 px):</strong> ব্যবসার প্রোডাক্ট/সার্ভিস, অফার বা ট্যাগলাইন সম্বলিত প্রফেশনাল ব্যানার ব্যবহার করুন (Canva দিয়ে সহজে ডিজাইন করতে পারেন)।</li>
+                                <li>আকার: ১৭০x১৭০ পিক্সেল (ডেস্কটপ), ১২৮x১২৮ পিক্সেল (মোবাইল)</li>
+                                <li>ফরম্যাট: JPG বা PNG</li>
+                                <li>ব্র্যান্ড লোগো বা স্পষ্ট ছবি ব্যবহার করুন</li>
                             </ul>
-
-                            <h5>পেজের নাম ও ইউজারনেইম:</h5>
-                            <ul>
-                                <li><strong>Page Name:</strong> ব্র্যান্ডের আসল নাম ব্যবহার করুন।</li>
-                                <li><strong>Username (URL):</strong> @yourbrandname আকারে একটি ইউজারনেইম সেট করুন, যা সহজ ও অন্য সোশ্যাল মিডিয়া হ্যান্ডেলের সাথে মেলে।</li>
-                            </ul>
-
-                            <h5>About সেকশন পূরণ:</h5>
-                            <p>ব্যবসার মূল উদ্দেশ্য, মিশন ও পণ্য/সেবা সম্পর্কে বিস্তারিত এবং আকর্ষণীয় বিবরণ লিখুন। ব্যবসার ধরন অনুযায়ী সম্পর্কিত Keyword ব্যবহার করুন যাতে সার্চে সহজে পাওয়া যায়।</p>
-
-                            <h5>কন্টাক্ট ইনফরমেশন যোগ:</h5>
-                            <p>ওয়েবসাইট লিঙ্ক, বিজনেস ইমেইল, ফোন নম্বর (WhatsApp Business সহ) এবং অফিস/দোকানের ঠিকানা সঠিকভাবে দিন। ব্যবসার সময়সূচী (Business Hours) নির্বাচন করে দিন।</p>
-                        </div>
-
-                        <div class="lecture-section">
-                            <h4>২. পেজ সেটিংস</h4>
                             
-                            <h5>পেজের ভিজিবিলিটি সেটিংস:</h5>
-                            <p>Page Settings > General এ গিয়ে Page Visibility: "Page published" নিশ্চিত করুন, যাতে সবাই পেজটি দেখতে পায়।</p>
-
-                            <h5>মেসেজিং অপশন:</h5>
+                            <h5>কভার ফটো নির্বাচন:</h5>
                             <ul>
-                                <li>Messaging অপশনে গিয়ে "Allow people to contact my Page privately" চালু রাখুন।</li>
-                                <li>Automated Responses সেটআপ করুন (Instant Reply, Frequently Asked Questions ও Away Message), যাতে গ্রাহক মেসেজ পাঠালেই স্বয়ংক্রিয় উত্তর পান।</li>
+                                <li>আকার: ৮২০x৩১২ পিক্সেল (ডেস্কটপ), ৬৪০x৩৬০ পিক্সেল (মোবাইল)</li>
+                                <li>ব্র্যান্ড মেসেজ বা অফার স্পষ্টভাবে দেখান</li>
+                                <li>খুব বেশি টেক্সট ব্যবহার করবেন না</li>
                             </ul>
-
-                            <h5>পেজ রোল এবং এক্সেস (Page Access):</h5>
-                            <p>Settings > New Pages Experience / Page Roles-এ গিয়ে আপনার টিম মেম্বারদের নির্দিষ্ট অ্যাক্সেস (Admin, Editor, Advertiser) দিন। নিরাপত্তার স্বার্থে অপরিচিত কাউকে কখনো Admin অ্যাক্সেস দেবেন না।</p>
-
-                            <h5>নোটিফিকেশন সেটিংস:</h5>
-                            <p>Settings > Notifications-এ গিয়ে গুরুত্বপূর্ণ আপডেট, মেসেজ ও কমেন্টের নোটিফিকেশন অন রাখুন, যাতে গ্রাহকদের প্রশ্নের দ্রুত উত্তর দেওয়া সম্ভব হয়।</p>
                         </div>
                     </div>
                 `,
                 sections: [
                     {
-                        title: "পেজ তৈরি ও অপ্টিমাইজেশন",
+                        title: "পেজ তৈরি",
                         items: [
-                            "ফেসবুক বিজনেস পেজ তৈরি করতে হবে",
-                            "প্রফেশনাল প্রোফাইল ছবি (170x170 px) দিতে হবে",
-                            "কভার ফটো (820x312 px) ডিজাইন করতে হবে",
-                            "পেজের নাম এবং ইউজারনেইম (@username) ঠিক করতে হবে",
-                            "About সেকশন পূর্ণাঙ্গভাবে পূরণ করতে হবে",
-                            "কন্টাক্ট ইনফরমেশন (ওয়েবসাইট, ইমেইল, ফোন) যোগ করতে হবে",
-                            "ব্যবসার সময়সূচী (Business Hours) সেট করতে হবে"
+                            "ফেসবুকে নতুন পেজ খুলতে হবে",
+                            "সঠিক ক্যাটাগরি নির্বাচন করতে হবে",
+                            "পেজের নাম এবং বিবরণ লিখতে হবে"
                         ]
                     },
                     {
-                        title: "পেজ সেটিংস",
+                        title: "পেজ অপ্টিমাইজেশন",
                         items: [
-                            "পেজের ভিজিবিলিটি সেটিংস (Page published) ঠিক করতে হবে",
-                            "মেসেজিং অপশন চালু করতে হবে",
-                            "অটোমেটেড রেসপন্স (Instant Reply, FAQ, Away Message) সেটআপ করতে হবে",
-                            "পেজ রোল এবং এক্সেস (Admin, Editor, Advertiser) ঠিক করতে হবে",
-                            "নোটিফিকেশন সেটিংস কনফিগার করতে হবে"
+                            "প্রোফাইল ছবি সেট করতে হবে",
+                            "কভার ফটো আপলোড করতে হবে",
+                            "About সেকশন পূরণ করতে হবে",
+                            "Contact Information যুক্ত করতে হবে"
                         ]
                     }
                 ],
                 quiz: {
-                    question: "ফেসবুক পেজের কভার ফটোর আদর্শ সাইজ কত?",
+                    question: "ফেসবুক পেজের প্রোফাইল ছবির আকার কত?",
                     options: [
-                        "500x500 পিক্সেল",
-                        "820x312 পিক্সেল",
-                        "1080x1080 পিক্সেল",
-                        "যেকোনো সাইজ চলবে"
+                        "১০০x১০০ পিক্সেল",
+                        "১৭০x১৭০ পিক্সেল",
+                        "৫০০x৫০০ পিক্সেল",
+                        "৮২০x৩১২ পিক্সেল"
                     ],
-                    correct: 1
+                    correct: 1,
+                    explanation: "ফেসবুক পেজের প্রোফাইল ছবির আকার ১৭০x১৭০ পিক্সেল (ডেস্কটপ) এবং ১২৮x১২৮ পিক্সেল (মোবাইল)।"
                 }
             },
             {
                 id: 3,
-                title: "কন্টেন্ট ক্রিয়েশন",
+                title: "কনটেন্ট স্ট্র্যাটেজি",
                 badge: "মডিউল ৩",
-                lectureContent: `
-                    <div class="lecture-content">
-                        <h3>📝 কন্টেন্ট ক্রিয়েশন - বিস্তারিত পাঠ</h3>
-                        
-                        <div class="lecture-section">
-                            <h4>১. কন্টেন্ট প্ল্যানিং</h4>
-                            
-                            <h5>কন্টেন্ট ক্যালেন্ডার তৈরি:</h5>
-                            <p>সপ্তাহে বা মাসে কতটি পোস্ট করা হবে এবং কোনো নির্দিষ্ট দিনে কী বিষয়ে পোস্ট যাবে, তার একটি পরিকল্পনা আগেই তৈরি রাখুন। Google Sheets বা Trello ব্যবহার করে সহজে কন্টেন্ট ক্যালেন্ডার তৈরি করতে পারেন।</p>
-                            
-                            <h5>কন্টেন্টের ধরন নির্ধারণ:</h5>
-                            <ul>
-                                <li><strong>ইনফরমেটিভ টেক্সট:</strong> টিপস, তথ্য ও পরামর্শ মূলক পোস্ট।</li>
-                                <li><strong>ভিজ্যুয়াল (ছবি/ইনফোগ্রাফিক):</strong> প্রোডাক্টের ছবি, অফার ব্যানার ও রিভিউ কাস্টমারদের নজর কাড়ে।</li>
-                                <li><strong>ভিডিও (Reels/Shorts):</strong> বর্তমানে ফেসবুক ও ইনস্টাগ্রামে ভিডিও কন্টেন্টের রিচ এবং এনগেজমেন্ট সবচেয়ে বেশি।</li>
-                            </ul>
-                            
-                            <h5>পোস্ট করার সেরা সময়:</h5>
-                            <p>আপনার পেজের Insights/Analytics চেক করে অডিয়েন্স কখন সবচেয়ে বেশি সক্রিয় থাকে তা জানুন। সাধারণত বাংলাদেশে রাত ৮টা থেকে ১০টা এবং দুপুর ২টা থেকে ৩টার মধ্যে ভালো সাড়া পাওয়া যায়।</p>
-                            
-                            <h5>কন্টেন্ট থিম ও টোন:</h5>
-                            <p>ব্যবসার ধরন অনুযায়ী টোন ঠিক করুন (যেমন: ইনফরমাল/বন্ধুত্বপূর্ণ নাকি প্রফেশনাল/ফরমাল)। পুরো মাসের কন্টেন্টের জন্য ৩-৪টি থিম নির্ধারণ করুন যেমন: শিক্ষণীয়, বিনোদনমূলক, প্রমোশনাল ও বিহাইন্ড-দ্য-সিন।</p>
-                        </div>
-                        
-                        <div class="lecture-section">
-                            <h4>২. ভিজ্যুয়াল কন্টেন্ট</h4>
-                            
-                            <h5>ডিজাইন টুলস (Canva/অন্যান্য):</h5>
-                            <p>Canva, CapCut বা Photoshop-এর মাধ্যমে ফেসবুক পোস্ট (1080x1080 px) এবং স্টোরি/রিলস (1080x1920 px) ফরম্যাটে সহজে গ্রাফিক্স ও ভিডিও বানান।</p>
-                            
-                            <h5>ছবির কোয়ালিটি ও কম্পোজিশন:</h5>
-                            <ul>
-                                <li>ভালো আলোতে পরিষ্কার ও হাই-রেজুলেশনের ছবি তুলুন।</li>
-                                <li>ছবির মূল উপাদান মাঝখানে বা রুল অব থার্ডস (Rule of Thirds) মেনে সাজান।</li>
-                            </ul>
-                            
-                            <h5>ব্র্যান্ড কালার ও ফন্ট:</h5>
-                            <p>ব্যবসার জন্য নির্দিষ্ট ২-৩টি ব্র্যান্ড কালার এবং ১-২টি মানানসই ফন্ট স্থির রেখে সব গ্রাফিক্সে সেটি ধারাবাহিকভাবে ব্যবহার করুন।</p>
-                            
-                            <h5>ভিডিও এডিটিং বেসিক:</h5>
-                            <ul>
-                                <li>প্রথম ৩ সেকেন্ডে আকর্ষণীয় দৃশ্য রাখা</li>
-                                <li>ভিডিওতে সাবটাইটেল/টেক্সট যোগ করা</li>
-                                <li>ব্যাকগ্রাউন্ডে ট্রেন্ডিং কিন্তু কপিরাইট-মুক্ত মিউজিক ব্যবহার করার অভ্যাস গড়ে তুলুন</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="lecture-section">
-                            <h4>৩. কপিরাইটিং</h4>
-                            
-                            <h5>আকর্ষণীয় হেডলাইন:</h5>
-                            <p>পোস্টের প্রথম লাইনেই পাঠকের সমস্যা বা কৌতূহল তুলে ধরুন। যেমন: "অনলাইনে বিক্রি বাড়াতে এই ৩টি ভুল এড়িয়ে চলুন!"</p>
-                            
-                            <h5>কল টু অ্যাকশন (CTA):</h5>
-                            <p>পোস্টের শেষে কাস্টমারকে কী করতে হবে তা স্পষ্ট নির্দেশ দিন। যেমন: "আজই অর্ডার করতে ইনবক্স করুন", "বিস্তারিত জানতে লিংকে ক্লিক করুন"</p>
-                            
-                            <h5>ইমোজির সঠিক ব্যবহার:</h5>
-                            <p>লেখার সৌন্দর্য ও আবেগ প্রকাশের জন্য প্রাসঙ্গিক ইমোজি ব্যবহার করুন (যেমন: 🔥, 📌, ✅, 🚀), তবে অতিরিক্ত ইমোজি ব্যবহার পরিহার করুন।</p>
-                            
-                            <h5>হ্যাশট্যাগ রিসার্চ ও ব্যবহার:</h5>
-                            <p>পেজের বিষয়বস্তু সম্পর্কিত প্রাসঙ্গিক ও ট্রেন্ডিং ৩-৫টি হ্যাশট্যাগ পোস্টের শেষে যোগ করুন। যেমন: #DigitalMarketingBD #ECommerceTips</p>
-                        </div>
-                    </div>
-                `,
                 sections: [
                     {
-                        title: "কন্টেন্ট প্ল্যানিং",
+                        title: "কনটেন্ট পরিকল্পনা",
                         items: [
-                            "কন্টেন্ট ক্যালেন্ডার তৈরি করতে হবে",
-                            "কন্টেন্টের ধরন নির্ধারণ করতে হবে (ছবি, ভিডিও, টেক্সট)",
-                            "পোস্ট করার সেরা সময় খুঁজে বের করতে হবে",
-                            "কন্টেন্ট থিম এবং টোন ঠিক করতে হবে"
+                            "কনটেন্ট ক্যালেন্ডার তৈরি করতে হবে",
+                            "পোস্টের ধরন নির্ধারণ করতে হবে (ছবি, ভিডিও, টেক্সট)",
+                            "পোস্টিং ফ্রিকোয়েন্সি ঠিক করতে হবে"
                         ]
                     },
                     {
-                        title: "ভিজ্যুয়াল কন্টেন্ট",
+                        title: "কনটেন্ট টাইপ",
                         items: [
-                            "Canva বা অন্য টুলস দিয়ে গ্রাফিক্স তৈরি শিখতে হবে",
-                            "ছবির কোয়ালিটি এবং কম্পোজিশন বুঝতে হবে",
-                            "ব্র্যান্ড কালার এবং ফন্ট ব্যবহার করতে হবে",
-                            "ভিডিও এডিটিং বেসিক শিখতে হবে"
-                        ]
-                    },
-                    {
-                        title: "কপিরাইটিং",
-                        items: [
-                            "আকর্ষণীয় হেডলাইন লিখতে হবে",
-                            "কল টু অ্যাকশন (CTA) ব্যবহার করতে হবে",
-                            "ইমোজি সঠিকভাবে ব্যবহার শিখতে হবে",
-                            "হ্যাশট্যাগ রিসার্চ এবং ব্যবহার করতে হবে"
+                            "এডুকেশনাল কনটেন্ট তৈরি করতে হবে",
+                            "এন্টারটেইনমেন্ট কনটেন্ট যুক্ত করতে হবে",
+                            "প্রোমোশনাল কনটেন্ট পরিকল্পনা করতে হবে"
                         ]
                     }
                 ],
                 quiz: {
-                    question: "ফেসবুকে পোস্ট করার সেরা সময় কোনটি?",
+                    question: "কনটেন্ট ক্যালেন্ডার কেন গুরুত্বপূর্ণ?",
                     options: [
-                        "রাত ৩টা",
-                        "সকাল ১০টা - দুপুর ২টা",
-                        "সকাল ৬টা",
-                        "যেকোনো সময় সমান"
+                        "শুধুমাত্র সময় বাঁচায়",
+                        "ধারাবাহিকতা বজায় রাখতে সাহায্য করে",
+                        "কোনো লাভ নেই",
+                        "শুধুমাত্র বড় ব্র্যান্ডের জন্য"
                     ],
-                    correct: 1
+                    correct: 1,
+                    explanation: "কনটেন্ট ক্যালেন্ডার ধারাবাহিকতা বজায় রাখতে, পরিকল্পিতভাবে পোস্ট করতে এবং সময় বাঁচাতে সাহায্য করে।"
                 }
             },
             {
                 id: 4,
-                title: "ফেসবুক অ্যাডভার্টাইজিং",
+                title: "ফেসবুক অ্যাডস",
                 badge: "মডিউল ৪",
-                lectureContent: `
-                    <div class="lecture-content">
-                        <h3>📢 ফেসবুক অ্যাডভার্টাইজিং - বিস্তারিত পাঠ</h3>
-                        
-                        <div class="lecture-section">
-                            <h4>১. অ্যাড ম্যানেজার সেটআপ</h4>
-                            
-                            <h5>অ্যাড ম্যানেজার একাউন্ট তৈরি:</h5>
-                            <p>adsmanager.facebook.com-এ গিয়ে আপনার পার্সোনাল আইডি বা Meta Business Suite-এর অধীনে একটি অ্যাড একাউন্ট তৈরি বা সেটআপ করে নিন।</p>
-                            
-                            <h5>পেমেন্ট মেথড যোগ:</h5>
-                            <p>Ads Manager Settings > Payment Settings-এ গিয়ে আন্তর্জাতিক লেনদেন সক্ষম ডুল-কারেন্সি ডেবিট/ক্রেডিট কার্ড (Visa/Mastercard) যোগ করুন।</p>
-                            
-                            <h5>অ্যাড একাউন্ট সেটিংস কনফিগার:</h5>
-                            <p>মুদ্রা (Currency) হিসাবে USD বা BDT এবং টাইমজোন (Dhaka Timezone) সঠিকভাবে নির্বাচন করুন, কারণ পরবর্তীতে এগুলো পরিবর্তন করা যায় না।</p>
-                            
-                            <h5>পিক্সেল সেটআপ:</h5>
-                            <p>Meta Pixel হলো একটি ট্র্যাকিং কোড যা ওয়েবসাইটে বসাতে হয়। এটি ওয়েবসাইটের ভিজিটরদের আচরণ ট্র্যাকিং এবং পরবর্তীতে রিমার্কেটিং অ্যাড চালানোর জন্য অত্যন্ত জরুরি।</p>
-                        </div>
-                        
-                        <div class="lecture-section">
-                            <h4>২. অ্যাড ক্রিয়েশন</h4>
-                            
-                            <h5>অ্যাড অবজেক্টিভ নির্বাচন:</h5>
-                            <p>প্রচারের লক্ষ্যের ওপর ভিত্তি করে সঠিক অবজেক্টিভ বাছুন:</p>
-                            <ul>
-                                <li><strong>Awareness:</strong> ব্র্যান্ডের পরিচিতি বাড়াতে।</li>
-                                <li><strong>Traffic:</strong> ওয়েবসাইটে ভিজিটর পাঠাতে।</li>
-                                <li><strong>Engagement:</strong> পেজের পোস্টে লাইক, কমেন্ট বা শেয়ার বাড়াতে।</li>
-                                <li><strong>Leads / Sales:</strong> সম্ভাব্য গ্রাহকের তথ্য সংগ্রহ বা সরাসরি পণ্য বিক্রি করতে।</li>
-                            </ul>
-                            
-                            <h5>টার্গেট অডিয়েন্স সেট:</h5>
-                            <p>বয়স, লিঙ্গ, স্থান এবং ভাষা নির্ধারণ করে বিজ্ঞাপন দেখানোর নির্দিষ্ট অডিয়েন্স তৈরি করুন।</p>
-                            
-                            <h5>বাজেট এবং শিডিউল:</h5>
-                            <p>Daily Budget (প্রতিদিনের খরচ) বা Lifetime Budget (নির্দিষ্ট মেয়াদের মোট খরচ) বেছে নিন এবং বিজ্ঞাপনের শুরুর ও শেষের তারিখ শিডিউল করুন।</p>
-                            
-                            <h5>অ্যাড ক্রিয়েটিভ আপলোড:</h5>
-                            <p>বিজ্ঞাপন হিসেবে ব্যবহার করার জন্য আকর্ষণীয় ও হাই-কোয়ালিটি ছবি, ক্যারাউজেল (Carousel) অথবা ভিডিও ফাইল আপলোড করুন।</p>
-                            
-                            <h5>অ্যাড কপি লেখা:</h5>
-                            <p>বিজ্ঞাপনে ব্যবহার করার জন্য স্পষ্ট Primary Text, আকর্ষণীয় Headline এবং মানানসই CTA (যেমন: Shop Now, Send Message) ব্যবহার করুন।</p>
-                        </div>
-                        
-                        <div class="lecture-section">
-                            <h4>৩. টার্গেটিং</h4>
-                            
-                            <h5>ডেমোগ্রাফিক টার্গেটিং:</h5>
-                            <p>গ্রাহকদের বয়স (যেমন: ১৮-৩৫ বছর), লিঙ্গ (পুরুষ/নারী), শিক্ষাগত যোগ্যতা, বৈবাহিক অবস্থা বা পেশার ওপর ভিত্তি করে টার্গেট করা।</p>
-                            
-                            <h5>ইন্টারেস্ট বেইজড টার্গেটিং:</h5>
-                            <p>গ্রাহকের আগ্রহ বা শখের ওপর ভিত্তি করে বিজ্ঞাপন দেখানো (যেমন: শপিং, টেকনোলজি, ফিটনেস, ফ্যাশন)।</p>
-                            
-                            <h5>বিহেভিয়ার টার্গেটিং:</h5>
-                            <p>তাদের আচরণ ও অভ্যাস অনুযায়ী টার্গেট করা (যেমন: অনলাইনে কেনাকাটায় অভ্যস্ত ব্যক্তি, নির্দিষ্ট ডিভাইসের ব্যবহারকারী বা সাম্প্রতিক ভ্রমণকারী)।</p>
-                            
-                            <h5>কাস্টম অডিয়েন্স (Custom Audience):</h5>
-                            <p>যারা ইতোমধ্যে আপনার পেজে মেসেজ দিয়েছেন, ভিডিও দেখেছেন বা ওয়েবসাইটে ভিজিট করেছেন—তাদের নিয়ে পুনরায় বিজ্ঞাপনের জন্য তৈরি করা অডিয়েন্স।</p>
-                            
-                            <h5>লুকঅলাইক অডিয়েন্স (Lookalike Audience):</h5>
-                            <p>আপনার বিদ্যমান কাস্টমার বা পেজ ফলোয়ারদের সাথে মিল আছে এমন একদম নতুন সম্ভাব্য গ্রাহকদের খুঁজে বের করার জন্য এই অডিয়েন্স তৈরি করা হয়।</p>
-                        </div>
-                    </div>
-                `,
                 sections: [
                     {
-                        title: "অ্যাড ম্যানেজার সেটআপ",
+                        title: "অ্যাড সেটআপ",
                         items: [
-                            "ফেসবুক অ্যাড ম্যানেজার একাউন্ট তৈরি করতে হবে",
-                            "পেমেন্ট মেথড যোগ করতে হবে",
-                            "অ্যাড একাউন্ট সেটিংস কনফিগার করতে হবে",
-                            "পিক্সেল সেটআপ বুঝতে হবে"
-                        ]
-                    },
-                    {
-                        title: "অ্যাড ক্রিয়েশন",
-                        items: [
-                            "অ্যাড অবজেক্টিভ নির্বাচন করতে হবে",
+                            "Ads Manager এ অ্যাকাউন্ট খুলতে হবে",
+                            "অ্যাডের উদ্দেশ্য নির্বাচন করতে হবে",
                             "টার্গেট অডিয়েন্স সেট করতে হবে",
-                            "বাজেট এবং শিডিউল ঠিক করতে হবে",
-                            "অ্যাড ক্রিয়েটিভ আপলোড করতে হবে",
-                            "অ্যাড কপি লিখতে হবে"
+                            "বাজেট এবং সময়সীমা নির্ধারণ করতে হবে"
                         ]
                     },
                     {
-                        title: "টার্গেটিং",
+                        title: "অ্যাড অপ্টিমাইজেশন",
                         items: [
-                            "ডেমোগ্রাফিক টার্গেটিং বুঝতে হবে",
-                            "ইন্টারেস্ট বেইজড টার্গেটিং শিখতে হবে",
-                            "বিহেভিয়ার টার্গেটিং ব্যবহার করতে হবে",
-                            "কাস্টম অডিয়েন্স তৈরি করতে হবে",
-                            "লুকঅলাইক অডিয়েন্স তৈরি করতে হবে"
+                            "A/B টেস্টিং করতে হবে",
+                            "অ্যাড পারফরম্যান্স ট্র্যাক করতে হবে",
+                            "ROI বিশ্লেষণ করতে হবে"
                         ]
                     }
                 ],
                 quiz: {
-                    question: "ফেসবুক অ্যাডের ন্যূনতম বাজেট কত হতে পারে?",
+                    question: "ফেসবুক অ্যাডস এর ন্যূনতম বাজেট কত?",
                     options: [
-                        "$100 প্রতিদিন",
                         "$10 প্রতিদিন",
+                        "$5 প্রতিদিন",
                         "$1 প্রতিদিন",
-                        "বাজেটের কোনো সীমা নেই"
+                        "$100 প্রতিদিন"
                     ],
-                    correct: 2
+                    correct: 2,
+                    explanation: "ফেসবুক অ্যাডস এর ন্যূনতম বাজেট $1 প্রতিদিন থেকে শুরু করা যায়।"
                 }
             },
             {
                 id: 5,
                 title: "ইনস্টাগ্রাম মার্কেটিং",
                 badge: "মডিউল ৫",
-                lectureContent: `
-                    <div class="lecture-content">
-                        <h3>📸 ইনস্টাগ্রাম মার্কেটিং - বিস্তারিত পাঠ</h3>
-
-                        <div class="lecture-section">
-                            <h4>১. ইনস্টাগ্রাম প্রোফাইল</h4>
-
-                            <h5>বিজনেস প্রোফাইলে কনভার্ট:</h5>
-                            <p>Personal Account-এর Settings & Privacy > Account type and tools-এ গিয়ে Switch to Professional Account নির্বাচন করে বিজনেস ক্যাটাগরি যুক্ত করুন। এটি ইনসাইটস ও অ্যাড ম্যানেজার ব্যবহারের সুবিধা দেবে।</p>
-
-                            <h5>বায়ো অপ্টিমাইজেশন:</h5>
-                            <p>১৫০ অক্ষরের মধ্যে ব্র্যান্ডের স্পষ্ট পরিচয়, মূল ভ্যালু প্রপোজিশন, প্রাসঙ্গিক কিউওয়ার্ড এবং একটি নির্দিষ্ট Call to Action (CTA) সাথে ওয়েবসাইট লিঙ্ক যুক্ত করুন।</p>
-
-                            <h5>হাইলাইট কভার ডিজাইন:</h5>
-                            <p>গুরুত্বপূর্ণ বিষয়গুলো (যেমন: Reviews, Products, Price list, FAQ) সেভ করে সুন্দর হাইলাইট তৈরি করুন এবং Canva দিয়ে ব্র্যান্ড কালার অনুযায়ী মিনিমাল কভার আইকন যোগ করুন।</p>
-
-                            <h5>কন্টাক্ট বাটন সেটআপ:</h5>
-                            <p>Edit Profile > Action Buttons-এ গিয়ে Email, Phone number বা WhatsApp বাটন যুক্ত করুন যাতে গ্রাহকরা সহজেই যোগাযোগ করতে পারেন।</p>
-                        </div>
-
-                        <div class="lecture-section">
-                            <h4>২. ইনস্টাগ্রাম কন্টেন্ট</h4>
-
-                            <h5>ফিড পোস্ট (1:1 / 4:5 ratio):</h5>
-                            <p>ব্যবসার মূল কন্টেন্ট, ব্র্যান্ডের প্রোডাক্ট এবং নান্দনিক হাই-কোয়ালিটি ছবি নিয়মিত পোস্ট করুন।</p>
-
-                            <h5>স্টোরি (9:16 ratio):</h5>
-                            <p>প্রতিদিন ৩-৫টি স্টোরি শেয়ার করুন। পোল (Polls), কুইজ (Quizzes), কোয়েশ্চন বক্স ও স্টিকার ব্যবহার করে অডিয়েন্সের সাথে ইন্টার‍্যাকশন বাড়ান।</p>
-
-                            <h5>রিলস (Reels):</h5>
-                            <p>বর্তমানে ইনস্টাগ্রাম অর্গানিক গ্রোথের জন্য রিলস সবচেয়ে শক্তিশালী মাধ্যম। ১০-৩০ সেকেন্ডের মধ্যে ট্রেন্ডিং অডিও, স্পষ্ট সাবটাইটেল ও আকর্ষণীয় ভিজ্যুয়াল দিয়ে রিলস তৈরি করুন।</p>
-
-                            <h5>ইন-ফিড লং-ফর্ম ভিডিও:</h5>
-                            <p>দীর্ঘ বিবরণ, টিউটোরিয়াল বা বিস্তারিত প্রোডাক্ট ডেমো সম্পর্কিত ৩-১০ মিনিটের ভিডিও ইন-ফিড ভিডিও হিসেবে আপলোড করুন।</p>
-
-                            <h5>ক্যারোসেল পোস্ট (Carousel):</h5>
-                            <p>একাধিক ছবি বা স্লাইড (২-১০টি) সম্বলিত পোস্ট তৈরি করুন। টিপস, তথ্যভিত্তিক স্টেপ-বাই-স্টেপ গাইড বা একের অধিক প্রোডাক্ট প্রদর্শনের জন্য ক্যারোসেল পোস্ট অত্যন্ত কার্যকর।</p>
-                        </div>
-
-                        <div class="lecture-section">
-                            <h4>৩. ইনস্টাগ্রাম গ্রোথ</h4>
-
-                            <h5>হ্যাশট্যাগ স্ট্র্যাটেজি:</h5>
-                            <p>প্রতিটি পোস্টে ৩-৫টি অতি-প্রাসঙ্গিক হ্যাশট্যাগ (Specific, Niche, and Location-based) ব্যবহার করুন। অহেতুক ২০-৩০টি হ্যাশট্যাগ দেওয়া থেকে বিরত থাকুন।</p>
-
-                            <h5>এনগেজমেন্ট বাড়ানো:</h5>
-                            <p>আপনার নিশ (Niche) সম্পর্কিত অন্য প্রোফাইলের পোস্টে মন্তব্য করুন, ডিএম (DM)-এর দ্রুত উত্তর দিন এবং ফলোয়ারদের মন্তব্যের উত্তর দিয়ে কমিউনিটি তৈরি করুন।</p>
-
-                            <h5>কলাবোরেশন ও শাউটআউট:</h5>
-                            <p>সমমানের অন্য ক্রিয়েটর বা পেজের সাথে Invite Collaborator ফিচার ব্যবহার করে যৌথ পোস্ট বা রিলস প্রকাশ করুন এবং ইনফ্লুয়েন্সারদের মাধ্যমে শাউটআউট নিন।</p>
-
-                            <h5>ইনস্টাগ্রাম অ্যাড:</h5>
-                            <p>সেরা পারফর্ম করা রিলস বা পোস্ট সরাসরি Boost Post অপশন অথবা ফেসবুক Meta Ads Manager থেকে নির্দিষ্ট টার্গেটেড অডিয়েন্সের কাছে প্রমোট করুন।</p>
-                        </div>
-                    </div>
-                `,
                 sections: [
                     {
-                        title: "ইনস্টাগ্রাম প্রোফাইল",
+                        title: "ইনস্টাগ্রাম সেটআপ",
                         items: [
-                            "বিজনেস প্রোফাইলে কনভার্ট করতে হবে",
+                            "বিজনেস অ্যাকাউন্টে রূপান্তর করতে হবে",
                             "বায়ো অপ্টিমাইজ করতে হবে",
-                            "হাইলাইট কভার ডিজাইন করতে হবে",
-                            "কন্টাক্ট বাটন সেটআপ করতে হবে"
+                            "হাইলাইটস তৈরি করতে হবে"
                         ]
                     },
                     {
-                        title: "ইনস্টাগ্রাম কন্টেন্ট",
+                        title: "ইনস্টাগ্রাম কনটেন্ট",
                         items: [
-                            "ফিড পোস্ট তৈরি করতে হবে",
-                            "স্টোরি তৈরি এবং শেয়ার করতে হবে",
-                            "রিলস তৈরি করতে হবে",
-                            "IGTV/ভিডিও আপলোড করতে হবে",
-                            "কারousel পোস্ট তৈরি করতে হবে"
-                        ]
-                    },
-                    {
-                        title: "ইনস্টাগ্রাম গ্রোথ",
-                        items: [
-                            "হ্যাশট্যাগ স্ট্র্যাটেজি তৈরি করতে হবে",
-                            "অন্যদের সাথে এনগেজ করতে হবে",
-                            "কলাবোরেশন এবং শাউটআউট করতে হবে",
-                            "ইনস্টাগ্রাম অ্যাড চালাতে হবে"
+                            "Reels তৈরি করতে হবে",
+                            "Stories শেয়ার করতে হবে",
+                            "Hashtag স্ট্র্যাটেজি তৈরি করতে হবে"
                         ]
                     }
                 ],
                 quiz: {
-                    question: "ইনস্টাগ্রামে একটি পোস্টে সর্বোচ্চ কতটি হ্যাশট্যাগ ব্যবহার করা যায়?",
+                    question: "ইনস্টাগ্রাম Reels এর সর্বোচ্চ দৈর্ঘ্য কত?",
                     options: [
-                        "10টি",
-                        "20টি",
-                        "30টি",
-                        "50টি"
+                        "15 সেকেন্ড",
+                        "30 সেকেন্ড",
+                        "60 সেকেন্ড",
+                        "90 সেকেন্ড"
                     ],
-                    correct: 2
+                    correct: 3,
+                    explanation: "ইনস্টাগ্রাম Reels বর্তমানে 90 সেকেন্ড পর্যন্ত হতে পারে।"
                 }
             },
             {
                 id: 6,
-                title: "এনালাইটিক্স এবং রিপোর্টিং",
+                title: "অ্যানালিটিক্স এবং রিপোর্টিং",
                 badge: "মডিউল ৬",
-                lectureContent: `
-                    <div class="lecture-content">
-                        <h3>📊 এনালাইটিক্স এবং রিপোর্টিং - বিস্তারিত পাঠ</h3>
-
-                        <div class="lecture-section">
-                            <h4>১. ফেসবুক ইনসাইটস</h4>
-
-                            <h5>পেজ ইনসাইটস বোঝা:</h5>
-                            <p>Meta Business Suite-এর Insights বিভাগে গিয়ে পেজের পারফরম্যান্স, ফলোয়ার সংখ্যা বৃদ্ধি এবং পোস্টগুলোর পারফরম্যান্স ট্র্যাক করুন।</p>
-
-                            <h5>রিচ বনাম ইমপ্রেশন:</h5>
-                            <p><strong>Reach:</strong> আপনার কন্টেন্ট বা বিজ্ঞাপনটি মোট কতজন স্বতন্ত্র ব্যক্তি (Unique users) দেখেছেন।</p>
-                            <p><strong>Impression:</strong> আপনার কন্টেন্টটি মোট কতবার স্ক্রিনে প্রদর্শিত হয়েছে (একই ব্যক্তি ৩ বার দেখলে ইমপ্রেশন হবে ৩, কিন্তু রিচ হবে ১)।</p>
-
-                            <h5>এনগেজমেন্ট রেট নির্ণয়:</h5>
-                            <p>এনগেজমেন্ট রেট হলো আপনার কন্টেন্টের সাথে মানুষ কতটা সম্পৃক্ত হচ্ছে তার পরিমাপ।</p>
-                            <p style="background: #eef2ff; padding: 15px; border-radius: 8px; font-family: monospace; text-align: center;">
-                                Engagement Rate = (Total Engagement ÷ Total Reach) × 100
-                            </p>
-                            <p>যেখানে Total Engagement = Likes + Comments + Shares + Clicks</p>
-
-                            <h5>অডিয়েন্স ডেমোগ্রাফিক্স বিশ্লেষণ:</h5>
-                            <p>আপনার ফলোয়ারদের বয়স, লিঙ্গ, শীর্ষ শহর/দেশ এবং তারা কখন অনলাইনে সবচেয়ে বেশি সক্রিয় থাকে তা বিশ্লেষণ করে পোস্টের সময় ও বিষয়বস্তু ঠিক করুন।</p>
-                        </div>
-
-                        <div class="lecture-section">
-                            <h4>২. অ্যাড পারফরম্যান্স Metrics</h4>
-
-                            <h5>CTR (Click-Through Rate):</h5>
-                            <p>বিজ্ঞাপন দেখে কত শতাংশ মানুষ তাতে ক্লিক করেছে তা নির্দেশ করে।</p>
-                            <p style="background: #eef2ff; padding: 15px; border-radius: 8px; font-family: monospace; text-align: center;">
-                                CTR = (Total Clicks ÷ Total Impressions) × 100
-                            </p>
-
-                            <h5>CPC (Cost Per Click):</h5>
-                            <p>বিজ্ঞাপনে প্রতি একটি ক্লিকের জন্য আপনার গড়ে কত খরচ হয়েছে।</p>
-                            <p style="background: #eef2ff; padding: 15px; border-radius: 8px; font-family: monospace; text-align: center;">
-                                CPC = Total Ad Spend ÷ Total Clicks
-                            </p>
-
-                            <h5>ROAS (Return on Ad Spend):</h5>
-                            <p>বিজ্ঞাপনে খরচ করা টাকার বিপরীতে কত টাকার বিক্রি বা আয় এসেছে।</p>
-                            <p style="background: #eef2ff; padding: 15px; border-radius: 8px; font-family: monospace; text-align: center;">
-                                ROAS = Revenue Generated from Ads ÷ Total Ad Spend
-                            </p>
-
-                            <h5>Conversion Rate:</h5>
-                            <p>আপনার লিংকে ক্লিক করে আসা ভিজিটরদের মধ্যে কত শতাংশ কাঙ্ক্ষিত কাজটি করেছেন (যেমন: পণ্য কেনা বা ফর্ম পূরণ করা)।</p>
-                            <p style="background: #eef2ff; padding: 15px; border-radius: 8px; font-family: monospace; text-align: center;">
-                                Conversion Rate = (Total Conversions ÷ Total Clicks) × 100
-                            </p>
-                        </div>
-
-                        <div class="lecture-section">
-                            <h4>৩. রিপোর্টিং</h4>
-
-                            <h5>সাপ্তাহিক রিপোর্ট:</h5>
-                            <p>প্রতি সপ্তাহে পোস্ট রিচ, এনগেজমেন্ট, নতুন ফলোয়ার সংখ্যা এবং বিজ্ঞাপনের সাপ্তাহিক খরচ পর্যবেক্ষণ করে ছোট রিপোর্ট তৈরি করুন।</p>
-
-                            <h5>মাসিক পারফরম্যান্স সামারি:</h5>
-                            <p>পুরো মাসের কন্টেন্ট পারফরম্যান্স, টপ-পারফর্মিং পোস্ট, মোট বিজ্ঞাপন খরচ, মোট সেলস এবং গড় ROAS একত্রিত করে একটি পূর্ণাঙ্গ সারাংশ তৈরি করুন।</p>
-
-                            <h5>ডেটা ভিজ্যুয়ালাইজেশন:</h5>
-                            <p>ডাটা সহজে বোঝার জন্য Google Looker Studio, Excel chart বা Canva টেমপ্লেট ব্যবহার করে গ্রাফ ও চার্টের মাধ্যমে রিপোর্ট উপস্থাপন করুন।</p>
-
-                            <h5>পরবর্তী মাসের পরিকল্পনা:</h5>
-                            <p>অতীতের রিপোর্টের ডেটা বিশ্লেষণ করে কোন পোস্ট বা অ্যাড কাজ করেছে আর কোনটি করেনি তা চিহ্নিত করুন এবং সে অনুযায়ী আগামী মাসের কন্টেন্ট ও বাজেট প্ল্যান তৈরি করুন।</p>
-                        </div>
-                    </div>
-                `,
                 sections: [
                     {
-                        title: "ফেসবুক ইনসাইটস",
+                        title: "ফেসবুক ইন্সাইটস",
                         items: [
-                            "পেজ ইনসাইটস বুঝতে হবে",
-                            "রিচ এবং ইমপ্রেশন পার্থক্য জানতে হবে",
-                            "এনগেজমেন্ট রেট ক্যালকুলেট করতে হবে",
-                            "অডিয়েন্স ডেমোগ্রাফিক্স বিশ্লেষণ করতে হবে"
+                            "Page Insights বুঝতে হবে",
+                            "Reach এবং Engagement ট্র্যাক করতে হবে",
+                            "Audience Demographics বিশ্লেষণ করতে হবে"
                         ]
                     },
                     {
-                        title: "অ্যাড পারফরম্যান্স",
+                        title: "গুগল অ্যানালিটিক্স",
                         items: [
-                            "CTR (Click Through Rate) ট্র্যাক করতে হবে",
-                            "CPC (Cost Per Click) মনিটর করতে হবে",
-                            "ROAS (Return on Ad Spend) ক্যালকুলেট করতে হবে",
-                            "কনভার্সন রেট ট্র্যাক করতে হবে"
-                        ]
-                    },
-                    {
-                        title: "রিপোর্টিং",
-                        items: [
-                            "সাপ্তাহিক রিপোর্ট তৈরি করতে হবে",
-                            "মাসিক পারফরম্যান্স সামারি তৈরি করতে হবে",
-                            "ডেটা ভিজ্যুয়ালাইজেশন তৈরি করতে হবে",
-                            "পরবর্তী মাসের পরিকল্পনা তৈরি করতে হবে"
+                            "Google Analytics সেটআপ করতে হবে",
+                            "Traffic Sources বিশ্লেষণ করতে হবে",
+                            "Conversion Tracking সেট করতে হবে"
                         ]
                     }
                 ],
                 quiz: {
-                    question: "CTR মানে কি?",
+                    question: "Facebook Insights এ 'Reach' বলতে কী বোঝায়?",
                     options: [
-                        "Cost To Revenue",
-                        "Click Through Rate",
-                        "Customer Traffic Report",
-                        "Content Targeting Rate"
+                        "মোট লাইক সংখ্যা",
+                        "কতজন ইউনিক ব্যক্তি পোস্ট দেখেছে",
+                        "মোট কমেন্ট সংখ্যা",
+                        "পেজের মোট ফলোয়ার"
                     ],
-                    correct: 1
+                    correct: 1,
+                    explanation: "Reach হলো কতজন ইউনিক ব্যক্তি আপনার কনটেন্ট দেখেছে তার সংখ্যা।"
                 }
             }
         ];
 
+        // App Data Structure
         let appData = {
             completedItems: {},
             quizAnswers: {},
-            quizScores: {}
+            quizScores: {},
+            quizAttempts: {},
+            streak: 0,
+            lastVisit: null,
+            dailyGoal: 10,
+            todayProgress: 0,
+            lastProgressReset: null,
+            theme: 'light',
+            timeSpent: {}
         };
 
-        function loadFromLocalStorage() {
-            const saved = localStorage.getItem('digitalMarketingTracker');
-            if (saved) {
-                appData = JSON.parse(saved);
+        // Initialize theme from localStorage
+        function initTheme() {
+            const savedTheme = localStorage.getItem('digitalMarketingTracker_theme');
+            if (savedTheme) {
+                appData.theme = savedTheme;
+                document.documentElement.setAttribute('data-theme', savedTheme);
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                appData.theme = 'dark';
+                document.documentElement.setAttribute('data-theme', 'dark');
             }
         }
 
-        function saveToLocalStorage() {
-            localStorage.setItem('digitalMarketingTracker', JSON.stringify(appData));
+        // Toggle Theme
+        function toggleTheme() {
+            appData.theme = appData.theme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', appData.theme);
+            try {
+                localStorage.setItem('digitalMarketingTracker_theme', appData.theme);
+            } catch (e) {
+                console.warn('localStorage not available for theme');
+            }
+            showToast(`থিম পরিবর্তন করা হয়েছে: ${appData.theme === 'dark' ? 'ডার্ক' : 'লাইট'}`);
         }
 
+        // Load from LocalStorage with error handling
+        function loadFromLocalStorage() {
+            try {
+                const saved = localStorage.getItem('digitalMarketingTracker');
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    appData = { ...appData, ...parsed };
+                    
+                    // Check and update streak
+                    updateStreak();
+                    
+                    // Reset daily progress if new day
+                    resetDailyProgressIfNeeded();
+                }
+            } catch (e) {
+                console.error('Error loading from localStorage:', e);
+                showToast('ডেটা লোড করতে সমস্যা হয়েছে', 'error');
+            }
+        }
+
+        // Save to LocalStorage with error handling
+        function saveToLocalStorage() {
+            try {
+                localStorage.setItem('digitalMarketingTracker', JSON.stringify(appData));
+            } catch (e) {
+                console.error('Error saving to localStorage:', e);
+                showToast('ডেটা সেভ করতে সমস্যা হয়েছে', 'error');
+            }
+        }
+
+        // Update Streak Logic
+        function updateStreak() {
+            const today = new Date().toDateString();
+            const yesterday = new Date(Date.now() - 86400000).toDateString();
+            
+            if (!appData.lastVisit) {
+                appData.streak = 1;
+            } else if (appData.lastVisit === yesterday) {
+                // Consecutive day - streak continues
+            } else if (appData.lastVisit !== today) {
+                // More than a day passed - reset streak
+                appData.streak = 1;
+            }
+            
+            appData.lastVisit = today;
+        }
+
+        // Reset Daily Progress if New Day
+        function resetDailyProgressIfNeeded() {
+            const today = new Date().toDateString();
+            if (appData.lastProgressReset !== today) {
+                appData.todayProgress = 0;
+                appData.lastProgressReset = today;
+            }
+        }
+
+        // Toggle Lecture Visibility
         function toggleLecture(moduleId) {
             const lectureElement = document.getElementById(`lecture-${moduleId}`);
             if (lectureElement) {
                 lectureElement.classList.toggle('show');
+                
+                // Track time spent
+                if (!appData.timeSpent[moduleId]) {
+                    appData.timeSpent[moduleId] = 0;
+                }
             }
         }
 
+        // Toggle Checklist Item
         function toggleItem(moduleId, sectionIndex, itemIndex) {
             const key = `${moduleId}-${sectionIndex}-${itemIndex}`;
             appData.completedItems[key] = !appData.completedItems[key];
+            
+            // Update daily progress
+            if (appData.completedItems[key]) {
+                appData.todayProgress++;
+            } else {
+                appData.todayProgress = Math.max(0, appData.todayProgress - 1);
+            }
+            
             saveToLocalStorage();
             renderModules();
             updateDashboard();
+            updateGoalProgress();
         }
 
+        // Submit Quiz with Explanation
         function submitQuiz(moduleId, selectedOption) {
             const module = modules.find(m => m.id === moduleId);
+            if (!module) return;
+            
             const isCorrect = selectedOption === module.quiz.correct;
             
             appData.quizAnswers[moduleId] = selectedOption;
             appData.quizScores[moduleId] = isCorrect ? 1 : 0;
+            appData.quizAttempts[moduleId] = (appData.quizAttempts[moduleId] || 0) + 1;
+            
             saveToLocalStorage();
             renderModules();
             updateDashboard();
+            
+            if (isCorrect) {
+                showToast('🎉 অভিনন্দন! আপনার উত্তর সঠিক।');
+            } else {
+                showToast('❌ ভুল উত্তর। আবার চেষ্টা করুন!', 'warning');
+            }
         }
 
+        // Retry Quiz
+        function retryQuiz(moduleId) {
+            appData.quizAnswers[moduleId] = undefined;
+            appData.quizScores[moduleId] = undefined;
+            saveToLocalStorage();
+            renderModules();
+        }
+
+        // Calculate Progress
         function calculateProgress() {
             let totalItems = 0;
             let completedItems = 0;
@@ -1292,6 +1651,7 @@
             };
         }
 
+        // Calculate Quiz Score
         function calculateQuizScore() {
             let totalQuizzes = 0;
             let correctAnswers = 0;
@@ -1299,13 +1659,16 @@
             modules.forEach(module => {
                 if (appData.quizScores[module.id] !== undefined) {
                     totalQuizzes++;
-                    correctAnswers += appData.quizScores[module.id];
+                    if (appData.quizScores[module.id] === 1) {
+                        correctAnswers++;
+                    }
                 }
             });
 
             return totalQuizzes > 0 ? Math.round((correctAnswers / totalQuizzes) * 100) : 0;
         }
 
+        // Update Dashboard
         function updateDashboard() {
             const progress = calculateProgress();
             const quizScore = calculateQuizScore();
@@ -1313,86 +1676,172 @@
             document.getElementById('totalLessons').textContent = progress.total;
             document.getElementById('completedLessons').textContent = progress.completed;
             document.getElementById('quizScore').textContent = quizScore + '%';
+            document.getElementById('streakCount').textContent = appData.streak;
 
             updateChart(progress);
+            updateGoalProgress();
         }
 
+        // Update Goal Progress
+        function updateGoalProgress() {
+            const goalProgressEl = document.getElementById('goalProgress');
+            if (appData.dailyGoal > 0) {
+                goalProgressEl.style.display = 'block';
+                document.getElementById('todayProgress').textContent = appData.todayProgress;
+                document.getElementById('todayGoal').textContent = appData.dailyGoal;
+                
+                const percentage = Math.min(100, (appData.todayProgress / appData.dailyGoal) * 100);
+                document.getElementById('goalProgressBar').style.width = percentage + '%';
+            } else {
+                goalProgressEl.style.display = 'none';
+            }
+        }
+
+        // Set Daily Goal
+        function setDailyGoal() {
+            const goalInput = document.getElementById('dailyGoal');
+            const goal = parseInt(goalInput.value);
+            
+            if (goal && goal > 0 && goal <= 50) {
+                appData.dailyGoal = goal;
+                saveToLocalStorage();
+                updateGoalProgress();
+                showToast('দৈনিক লক্ষ্য সেট করা হয়েছে!');
+            } else {
+                showToast('অনুগ্রহ করে ১ থেকে ৫০ এর মধ্যে একটি সংখ্যা দিন', 'error');
+            }
+        }
+
+        // Chart Initialization with error handling
         let progressChart = null;
 
         function updateChart(progress) {
-            const ctx = document.getElementById('progressChart').getContext('2d');
-            
-            const moduleProgress = modules.map(module => {
-                let total = 0;
-                let completed = 0;
-                
-                module.sections.forEach((section, sectionIndex) => {
-                    section.items.forEach((_, itemIndex) => {
-                        total++;
-                        const key = `${module.id}-${sectionIndex}-${itemIndex}`;
-                        if (appData.completedItems[key]) {
-                            completed++;
-                        }
+            try {
+                const ctx = document.getElementById('progressChart').getContext('2d');
+
+                const moduleProgress = modules.map(module => {
+                    let total = 0;
+                    let completed = 0;
+
+                    module.sections.forEach((section, sectionIndex) => {
+                        section.items.forEach((_, itemIndex) => {
+                            total++;
+                            const key = `${module.id}-${sectionIndex}-${itemIndex}`;
+                            if (appData.completedItems[key]) {
+                                completed++;
+                            }
+                        });
                     });
+
+                    return total > 0 ? Math.round((completed / total) * 100) : 0;
                 });
-                
-                return total > 0 ? Math.round((completed / total) * 100) : 0;
-            });
 
-            if (progressChart) {
-                progressChart.destroy();
-            }
+                if (progressChart) {
+                    progressChart.destroy();
+                }
 
-            progressChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: modules.map(m => m.title.substring(0, 15) + '...'),
-                    datasets: [{
-                        label: 'অগ্রগতি (%)',
-                        data: moduleProgress,
-                        backgroundColor: [
-                            'rgba(99, 102, 241, 0.8)',
-                            'rgba(236, 72, 153, 0.8)',
-                            'rgba(16, 185, 129, 0.8)',
-                            'rgba(245, 158, 11, 0.8)',
-                            'rgba(59, 130, 246, 0.8)',
-                            'rgba(139, 92, 246, 0.8)'
-                        ],
-                        borderColor: [
-                            'rgba(99, 102, 241, 1)',
-                            'rgba(236, 72, 153, 1)',
-                            'rgba(16, 185, 129, 1)',
-                            'rgba(245, 158, 11, 1)',
-                            'rgba(59, 130, 246, 1)',
-                            'rgba(139, 92, 246, 1)'
-                        ],
-                        borderWidth: 2,
-                        borderRadius: 10
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
+                progressChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: modules.map(m => m.badge),
+                        datasets: [{
+                            label: 'অগ্রগতি (%)',
+                            data: moduleProgress,
+                            backgroundColor: [
+                                'rgba(99, 102, 241, 0.8)',
+                                'rgba(236, 72, 153, 0.8)',
+                                'rgba(16, 185, 129, 0.8)',
+                                'rgba(245, 158, 11, 0.8)',
+                                'rgba(59, 130, 246, 0.8)',
+                                'rgba(139, 92, 246, 0.8)'
+                            ],
+                            borderColor: [
+                                'rgba(99, 102, 241, 1)',
+                                'rgba(236, 72, 153, 1)',
+                                'rgba(16, 185, 129, 1)',
+                                'rgba(245, 158, 11, 1)',
+                                'rgba(59, 130, 246, 1)',
+                                'rgba(139, 92, 246, 1)'
+                            ],
+                            borderWidth: 2,
+                            borderRadius: 10
+                        }]
                     },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100,
-                            ticks: {
-                                callback: function(value) {
-                                    return value + '%';
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value + '%';
+                                    }
                                 }
                             }
                         }
                     }
+                });
+            } catch (e) {
+                console.error('Error initializing chart:', e);
+                showToast('চার্ট লোড করতে সমস্যা হয়েছে', 'error');
+            }
+        }
+
+        // Filter Modules
+        function filterModules() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filterType = document.getElementById('filterSelect').value;
+
+            modules.forEach(module => {
+                const moduleCard = document.querySelector(`[data-module-id="${module.id}"]`);
+                if (!moduleCard) return;
+
+                // Search filter
+                const matchesSearch = module.title.toLowerCase().includes(searchTerm) ||
+                    module.sections.some(s => s.title.toLowerCase().includes(searchTerm)) ||
+                    module.sections.some(s => s.items.some(i => i.toLowerCase().includes(searchTerm)));
+
+                // Status filter
+                let matchesFilter = true;
+                if (filterType !== 'all') {
+                    let totalItems = 0;
+                    let completedItems = 0;
+                    
+                    module.sections.forEach((section, sectionIndex) => {
+                        section.items.forEach((_, itemIndex) => {
+                            totalItems++;
+                            const key = `${module.id}-${sectionIndex}-${itemIndex}`;
+                            if (appData.completedItems[key]) {
+                                completedItems++;
+                            }
+                        });
+                    });
+
+                    if (filterType === 'completed' && completedItems !== totalItems) {
+                        matchesFilter = false;
+                    } else if (filterType === 'incomplete' && (completedItems === totalItems || completedItems === 0)) {
+                        matchesFilter = false;
+                    } else if (filterType === 'notstarted' && completedItems > 0) {
+                        matchesFilter = false;
+                    }
+                }
+
+                if (matchesSearch && matchesFilter) {
+                    moduleCard.classList.remove('hidden');
+                } else {
+                    moduleCard.classList.add('hidden');
                 }
             });
         }
 
+        // Render Modules
         function renderModules() {
             const container = document.getElementById('modulesContainer');
             container.innerHTML = '';
@@ -1400,7 +1849,8 @@
             modules.forEach(module => {
                 const moduleCard = document.createElement('div');
                 moduleCard.className = 'module-card';
-                
+                moduleCard.setAttribute('data-module-id', module.id);
+
                 let sectionsHTML = '';
                 module.sections.forEach((section, sectionIndex) => {
                     let itemsHTML = '';
@@ -1408,21 +1858,21 @@
                         const key = `${module.id}-${sectionIndex}-${itemIndex}`;
                         const isChecked = appData.completedItems[key] ? 'checked' : '';
                         const completedClass = appData.completedItems[key] ? 'completed' : '';
-                        
+
                         itemsHTML += `
                             <div class="checklist-item ${completedClass}">
                                 <label class="custom-checkbox">
-                                    <input type="checkbox" ${isChecked} onchange="toggleItem(${module.id}, ${sectionIndex}, ${itemIndex})">
+                                    <input type="checkbox" ${isChecked} onchange="toggleItem(${module.id}, ${sectionIndex}, ${itemIndex})" aria-label="${sanitizeHTML(item)}">
                                     <span class="checkmark"></span>
                                 </label>
-                                <span class="checklist-text">${item}</span>
+                                <span class="checklist-text">${sanitizeHTML(item)}</span>
                             </div>
                         `;
                     });
-                    
+
                     sectionsHTML += `
                         <div class="checklist-section">
-                            <h4>📌 ${section.title}</h4>
+                            <h4>📌 ${sanitizeHTML(section.title)}</h4>
                             ${itemsHTML}
                         </div>
                     `;
@@ -1430,7 +1880,8 @@
 
                 const answeredQuiz = appData.quizAnswers[module.id] !== undefined;
                 const quizScore = appData.quizScores[module.id];
-                
+                const attempts = appData.quizAttempts[module.id] || 0;
+
                 let quizOptionsHTML = '';
                 module.quiz.options.forEach((option, index) => {
                     let optionClass = 'quiz-option';
@@ -1441,11 +1892,11 @@
                             optionClass += ' incorrect';
                         }
                     }
-                    
+
                     quizOptionsHTML += `
-                        <div class="${optionClass}" onclick="${!answeredQuiz ? `submitQuiz(${module.id}, ${index})` : ''}">
-                            <input type="radio" name="quiz-${module.id}" ${answeredQuiz && index === appData.quizAnswers[module.id] ? 'checked' : ''} style="display:none;">
-                            <span>${option}</span>
+                        <div class="${optionClass}" onclick="${!answeredQuiz ? `submitQuiz(${module.id}, ${index})` : ''}" role="button" tabindex="${!answeredQuiz ? '0' : '-1'}" aria-pressed="false">
+                            <input type="radio" name="quiz-${module.id}" ${answeredQuiz && index === appData.quizAnswers[module.id] ? 'checked' : ''} style="display:none;" aria-hidden="true">
+                            <span>${sanitizeHTML(option)}</span>
                         </div>
                     `;
                 });
@@ -1453,100 +1904,256 @@
                 let feedbackHTML = '';
                 if (answeredQuiz) {
                     if (quizScore === 1) {
-                        feedbackHTML = '<div class="quiz-feedback success">✅ অভিনন্দন! আপনার উত্তর সঠিক।</div>';
+                        feedbackHTML = `
+                            <div class="quiz-feedback success">
+                                ✅ অভিনন্দন! আপনার উত্তর সঠিক।
+                                <div class="quiz-explanation"><strong>ব্যাখ্যা:</strong> ${module.quiz.explanation}</div>
+                            </div>
+                        `;
                     } else {
-                        feedbackHTML = '<div class="quiz-feedback error">❌ ভুল উত্তর। সঠিক উত্তরটি হাইলাইট করা হয়েছে।</div>';
+                        feedbackHTML = `
+                            <div class="quiz-feedback error">
+                                ❌ ভুল উত্তর। সঠিক উত্তরটি হাইলাইট করা হয়েছে।
+                                <div class="quiz-explanation"><strong>ব্যাখ্যা:</strong> ${module.quiz.explanation}</div>
+                                <button class="btn btn-small" style="margin-top: 10px;" onclick="retryQuiz(${module.id})">🔄 আবার চেষ্টা করুন</button>
+                            </div>
+                        `;
                     }
                 }
 
                 const hasLecture = module.lectureContent ? true : false;
-                
+
                 moduleCard.innerHTML = `
                     <div class="module-header">
-                        <h2 class="module-title">${module.title}</h2>
-                        <span class="module-badge">${module.badge}</span>
+                        <h2 class="module-title">${sanitizeHTML(module.title)}</h2>
+                        <span class="module-badge">${sanitizeHTML(module.badge)}</span>
                     </div>
-                    ${hasLecture ? `<button class="toggle-lecture-btn" onclick="toggleLecture(${module.id})">📖 পাঠ দেখুন/লুকান</button>` : ''}
-                    ${hasLecture ? `<div id="lecture-${module.id}" class="lecture-container">${module.lectureContent}</div>` : ''}
+                    ${hasLecture ? `<button class="toggle-lecture-btn" onclick="toggleLecture(${module.id})" aria-expanded="false">📖 পাঠ দেখুন/লুকান</button>` : ''}
+                    ${hasLecture ? `<div id="lecture-${module.id}" class="lecture-container" role="region" aria-label="পাঠ কন্টেন্ট">${module.lectureContent}</div>` : ''}
                     ${sectionsHTML}
                     <div class="quiz-section">
-                        <h4>🎯 ছোট কুইজ</h4>
+                        <h4>🎯 ছোট কুইজ ${attempts > 0 ? `(চেষ্টা: ${attempts})` : ''}</h4>
                         <div class="quiz-question">
-                            <p>${module.quiz.question}</p>
-                            <div class="quiz-options">
+                            <p>${sanitizeHTML(module.quiz.question)}</p>
+                            <div class="quiz-options" role="radiogroup" aria-label="কুইজ অপশন">
                                 ${quizOptionsHTML}
                             </div>
                             ${feedbackHTML}
                         </div>
                     </div>
                 `;
-                
+
                 container.appendChild(moduleCard);
             });
         }
 
-        function resetProgress() {
-            if (confirm('আপনি কি নিশ্চিত যে আপনি সব অগ্রগতি রিসেট করতে চান?')) {
-                appData = {
-                    completedItems: {},
-                    quizAnswers: {},
-                    quizScores: {}
+        // Export Progress as JSON
+        function exportProgress() {
+            try {
+                const exportData = {
+                    version: '2.0',
+                    exportDate: new Date().toISOString(),
+                    data: appData
                 };
-                saveToLocalStorage();
-                renderModules();
-                updateDashboard();
+
+                const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `digital-marketing-backup-${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                showToast('✅ ডেটা সফলভাবে এক্সপোর্ট হয়েছে!');
+            } catch (e) {
+                console.error('Export error:', e);
+                showToast('এক্সপোর্ট করতে সমস্যা হয়েছে', 'error');
             }
         }
 
-        function exportProgress() {
+        // Import Progress from JSON
+        function importProgress(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    
+                    if (imported.version && imported.data) {
+                        appData = { ...appData, ...imported.data };
+                        saveToLocalStorage();
+                        renderModules();
+                        updateDashboard();
+                        showToast('✅ ডেটা সফলভাবে ইম্পোর্ট হয়েছে!');
+                    } else {
+                        throw new Error('Invalid format');
+                    }
+                } catch (err) {
+                    console.error('Import error:', err);
+                    showToast('❌ ইম্পোর্ট করতে সমস্যা হয়েছে। ফাইলটি সঠিক নয়।', 'error');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = ''; // Reset file input
+        }
+
+        // Generate and Show Certificate
+        function showCertificate() {
             const progress = calculateProgress();
             const quizScore = calculateQuizScore();
             
-            let report = `ডিজিটাল মার্কেটিং শেখার অগ্রগতি রিপোর্ট\n`;
-            report += `========================================\n\n`;
-            report += `তারিখ: ${new Date().toLocaleDateString('bn-BD')}\n\n`;
-            report += `সারসংক্ষেপ:\n`;
-            report += `- মোট পাঠ: ${progress.total}\n`;
-            report += `- সম্পন্ন করা হয়েছে: ${progress.completed}\n`;
-            report += `- অগ্রগতি: ${progress.percentage}%\n`;
-            report += `- কুইজ স্কোর: ${quizScore}%\n\n`;
-            report += `মডিউল অনুযায়ী অগ্রগতি:\n`;
-            report += `----------------------------------------\n`;
-            
-            modules.forEach(module => {
-                let total = 0;
-                let completed = 0;
-                
-                module.sections.forEach((section, sectionIndex) => {
-                    section.items.forEach((_, itemIndex) => {
-                        total++;
-                        const key = `${module.id}-${sectionIndex}-${itemIndex}`;
-                        if (appData.completedItems[key]) {
-                            completed++;
-                        }
-                    });
-                });
-                
-                const moduleProgress = total > 0 ? Math.round((completed / total) * 100) : 0;
-                report += `\n${module.badge}: ${module.title}\n`;
-                report += `  অগ্রগতি: ${moduleProgress}% (${completed}/${total})\n`;
+            if (progress.percentage < 100) {
+                showToast('📚 সার্টিফিকেট পেতে সব মডিউল সম্পন্ন করুন!', 'warning');
+                return;
+            }
+
+            const certificateContent = document.getElementById('certificateContent');
+            const today = new Date().toLocaleDateString('bn-BD', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
             });
-            
-            const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `digital-marketing-progress-${new Date().toISOString().split('T')[0]}.txt`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+
+            certificateContent.innerHTML = `
+                <div class="certificate-title">সার্টিফিকেট অফ কমপ্লিশন</div>
+                <div class="certificate-subtitle">ডিজিটাল মার্কেটিং কোর্স</div>
+                <p>এই সার্টিফিকেট দ্বারা প্রত্যয়িত করা হচ্ছে যে</p>
+                <div class="certificate-name">আপনি</div>
+                <p>সফলভাবে "ডিজিটাল মার্কেটিং শেখার ট্র্যাকার" কোর্স সম্পন্ন করেছেন</p>
+                <p><strong>অগ্রগতি:</strong> ${progress.percentage}% | <strong>কুইজ স্কোর:</strong> ${quizScore}%</p>
+                <div class="certificate-date">তারিখ: ${today}</div>
+            `;
+
+            document.getElementById('certificateModal').classList.add('show');
         }
 
+        // Download Certificate
+        function downloadCertificate() {
+            const certContent = document.getElementById('certificateContent');
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>ডিজিটাল মার্কেটিং সার্টিফিকেট</title>
+                    <style>
+                        body { font-family: 'Hind Siliguri', sans-serif; padding: 40px; }
+                        .certificate-container { 
+                            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+                            border: 10px solid #d97706;
+                            border-radius: 15px;
+                            padding: 40px;
+                            text-align: center;
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${certContent.innerHTML}
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        // Close Modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        // Confirm Delete
+        function confirmDelete() {
+            document.getElementById('deleteModal').classList.add('show');
+        }
+
+        // Delete All Data
+        function deleteAllData() {
+            try {
+                localStorage.removeItem('digitalMarketingTracker');
+                localStorage.removeItem('digitalMarketingTracker_theme');
+                
+                appData = {
+                    completedItems: {},
+                    quizAnswers: {},
+                    quizScores: {},
+                    quizAttempts: {},
+                    streak: 0,
+                    lastVisit: null,
+                    dailyGoal: 10,
+                    todayProgress: 0,
+                    lastProgressReset: null,
+                    theme: appData.theme,
+                    timeSpent: {}
+                };
+                
+                closeModal('deleteModal');
+                renderModules();
+                updateDashboard();
+                showToast('✅ সব ডেটা মুছে ফেলা হয়েছে!');
+            } catch (e) {
+                console.error('Delete error:', e);
+                showToast('ডেটা ডিলিট করতে সমস্যা হয়েছে', 'error');
+            }
+        }
+
+        // Toast Notification
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideIn 0.3s reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Keyboard Navigation for Quiz Options
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                const focused = document.activeElement;
+                if (focused.classList.contains('quiz-option') && focused.getAttribute('onclick')) {
+                    focused.click();
+                }
+            }
+        });
+
+        // Close modals on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.show').forEach(modal => {
+                    modal.classList.remove('show');
+                });
+            }
+        });
+
+        // Close modal on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('show');
+                }
+            });
+        });
+
         // Initialize the app
+        initTheme();
         loadFromLocalStorage();
         renderModules();
         updateDashboard();
+
+        // Service Worker Registration for offline support (if available)
+        if ('serviceWorker' in navigator) {
+            // Service worker can be added separately for PWA support
+            console.log('Service Worker supported');
+        }
     </script>
 </body>
 </html>
