@@ -857,8 +857,8 @@
             background: var(--white);
             border-radius: 20px;
             padding: 30px;
-            max-width: 600px;
-            width: 100%;
+            max-width: 900px;
+            width: 95%;
             max-height: 90vh;
             overflow-y: auto;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -885,12 +885,16 @@
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             border: 8px solid #c9a227;
             border-radius: 20px;
-            padding: 60px 50px;
+            padding: 50px 40px;
             text-align: center;
             margin: 20px 0;
             position: relative;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), inset 0 0 100px rgba(201, 162, 39, 0.1);
             overflow: hidden;
+            width: 800px;
+            height: 500px;
+            min-width: 800px;
+            min-height: 500px;
         }
         
         .certificate-container::before {
@@ -1002,30 +1006,30 @@
         .certificate-stats {
             display: flex;
             justify-content: center;
-            gap: 50px;
-            margin: 40px 0;
+            gap: 40px;
+            margin: 25px 0;
             flex-wrap: wrap;
         }
 
         .certificate-stat {
             background: linear-gradient(135deg, rgba(201, 162, 39, 0.15), rgba(244, 208, 63, 0.1));
-            padding: 20px 35px;
-            border-radius: 15px;
+            padding: 15px 30px;
+            border-radius: 12px;
             border: 2px solid rgba(201, 162, 39, 0.5);
-            min-width: 150px;
+            min-width: 130px;
             backdrop-filter: blur(10px);
         }
 
         .certificate-stat-label {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #b0b0b0;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
         .certificate-stat-value {
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: 800;
             background: linear-gradient(135deg, #c9a227, #f4d03f);
             -webkit-background-clip: text;
@@ -1034,12 +1038,12 @@
         }
 
         .certificate-footer {
-            margin-top: 50px;
+            margin-top: 30px;
             display: flex;
             justify-content: center;
-            align-items: flex-end;
+            align-items: center;
             flex-wrap: wrap;
-            gap: 60px;
+            gap: 80px;
             position: relative;
             z-index: 1;
         }
@@ -1049,7 +1053,7 @@
         }
 
         .signature-line {
-            width: 250px;
+            width: 220px;
             border-top: 3px solid #c9a227;
             margin: 10px auto;
             position: relative;
@@ -1066,16 +1070,16 @@
         }
 
         .signature-title {
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: #f4d03f;
-            margin-top: 12px;
+            margin-top: 10px;
             font-weight: 600;
             letter-spacing: 1px;
             text-transform: uppercase;
         }
         
         .signature-name {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #c9a227;
             margin-top: 5px;
             font-weight: 700;
@@ -1084,10 +1088,10 @@
 
         .certificate-date {
             color: #e0e0e0;
-            margin-top: 40px;
-            font-size: 1.2rem;
+            margin-top: 0;
+            font-size: 1.1rem;
             font-weight: 500;
-            padding: 15px 35px;
+            padding: 12px 30px;
             background: rgba(201, 162, 39, 0.1);
             border-radius: 50px;
             display: inline-block;
@@ -1235,8 +1239,13 @@
             }
 
             .certificate-container {
-                padding: 40px 25px;
-                border-width: 6px;
+                padding: 30px 20px;
+                border-width: 5px;
+                width: 100%;
+                height: auto;
+                min-width: auto;
+                min-height: auto;
+                aspect-ratio: 16/10;
             }
 
             .certificate-logo {
@@ -1341,8 +1350,13 @@
             }
             
             .certificate-container {
-                padding: 30px 15px;
-                border-width: 5px;
+                padding: 20px 10px;
+                border-width: 4px;
+                width: 100%;
+                height: auto;
+                min-width: auto;
+                min-height: auto;
+                aspect-ratio: 16/10;
             }
             
             .certificate-logo {
@@ -2684,7 +2698,7 @@
                         <div class="signature-title">কোর্স ইন্সট্রাক্টর</div>
                         <div class="signature-name">MD. Ziaul Hasan</div>
                     </div>
-                    <div class="certificate-date">📅 তারিখ: ${today}</div>
+                    <div class="certificate-date">📅 ${today}</div>
                 </div>
                 <div class="certificate-id">${certId}</div>
             `;
@@ -2701,38 +2715,31 @@
             btn.disabled = true;
             
             try {
-                // Use html2canvas to capture the certificate
+                // Use html2canvas to capture the certificate with 16:10 ratio
                 const canvas = await html2canvas(certContent, {
-                    scale: 2,
-                    backgroundColor: '#fff9e6',
+                    scale: 3,
+                    backgroundColor: '#1a1a2e',
                     useCORS: true,
-                    logging: false
+                    logging: false,
+                    width: 800,
+                    height: 500
                 });
                 
-                // Create PDF
+                // Create PDF with 16:10 aspect ratio (custom size)
                 const { jsPDF } = window.jspdf;
+                // A4 landscape is 297mm x 210mm, but we want 16:10 ratio
+                // Using custom size: 297mm x 185.625mm (297 * 10/16)
                 const pdf = new jsPDF({
                     orientation: 'landscape',
                     unit: 'mm',
-                    format: 'a4'
+                    format: [297, 185.625]
                 });
                 
                 const imgData = canvas.toDataURL('image/png');
                 const pdfWidth = pdf.internal.pageSize.getWidth();
                 const pdfHeight = pdf.internal.pageSize.getHeight();
                 
-                // Calculate dimensions to fit the certificate properly
-                const imgWidth = canvas.width;
-                const imgHeight = canvas.height;
-                const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-                const finalWidth = imgWidth * ratio;
-                const finalHeight = imgHeight * ratio;
-                
-                // Center the image
-                const x = (pdfWidth - finalWidth) / 2;
-                const y = (pdfHeight - finalHeight) / 2;
-                
-                pdf.addImage(imgData, 'PNG', x, y, finalWidth, finalHeight);
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
                 pdf.save('certificate.pdf');
                 
                 showToast('✅ সার্টিফিকেট ডাউনলোড হয়েছে!', 'success');
@@ -2754,12 +2761,14 @@
             btn.disabled = true;
             
             try {
-                // Use html2canvas to capture the certificate
+                // Use html2canvas to capture the certificate with 16:10 ratio
                 const canvas = await html2canvas(certContent, {
-                    scale: 2,
-                    backgroundColor: '#fff9e6',
+                    scale: 3,
+                    backgroundColor: '#1a1a2e',
                     useCORS: true,
-                    logging: false
+                    logging: false,
+                    width: 800,
+                    height: 500
                 });
                 
                 // Convert to blob and download
