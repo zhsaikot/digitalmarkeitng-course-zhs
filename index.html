@@ -40,6 +40,11 @@
             --bg-primary: #1f2937;
             --bg-secondary: #374151;
             --border-color: #4b5563;
+            --header-text: #f3f4f6;
+        }
+
+        :root {
+            --header-text: #ffffff;
         }
 
         body {
@@ -72,7 +77,7 @@
 
         header {
             text-align: center;
-            color: var(--white);
+            color: var(--header-text);
             padding: 40px 20px;
             margin-bottom: 30px;
             position: relative;
@@ -83,11 +88,13 @@
             font-weight: 700;
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            color: var(--header-text);
         }
 
         header p {
             font-size: 1.1rem;
             opacity: 0.95;
+            color: var(--header-text);
         }
 
         /* Theme Toggle Button */
