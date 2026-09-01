@@ -40,7 +40,7 @@
             --bg-primary: #1f2937;
             --bg-secondary: #374151;
             --border-color: #4b5563;
-            --header-text: #f3f4f6;
+            --header-text: #ffffff;
         }
 
         :root {
@@ -115,6 +115,256 @@
 
         .theme-toggle:hover {
             transform: scale(1.1);
+        }
+
+        /* Profile Section */
+        .profile-section {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: var(--white);
+            padding: 10px 20px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .profile-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .profile-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+            background: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--text-dark);
+        }
+
+        #profileAvatarDisplay {
+            display: none;
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            min-width: 120px;
+        }
+
+        .profile-name {
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .profile-email {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .edit-profile-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+
+        .edit-profile-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Profile Modal */
+        .profile-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .profile-modal.active {
+            display: flex;
+        }
+
+        .profile-modal-content {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .profile-modal-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-modal-header h2 {
+            color: var(--text-dark);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .profile-modal-header p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .profile-form-group {
+            margin-bottom: 25px;
+        }
+
+        .profile-form-group label {
+            display: block;
+            color: var(--text-dark);
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .profile-form-group input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: 'Hind Siliguri', sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-dark);
+            transition: border-color 0.3s ease;
+        }
+
+        .profile-form-group input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .profile-image-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .profile-preview-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+        }
+
+        .profile-preview {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+            background: var(--bg-secondary);
+            display: none;
+        }
+
+        .profile-upload-btn {
+            background: var(--bg-secondary);
+            color: var(--text-dark);
+            border: 2px dashed var(--border-color);
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-family: 'Hind Siliguri', sans-serif;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .profile-upload-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .profile-save-btn {
+            flex: 1;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Hind Siliguri', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .profile-save-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .profile-cancel-btn {
+            flex: 1;
+            background: var(--bg-secondary);
+            color: var(--text-dark);
+            border: 2px solid var(--border-color);
+            padding: 14px 25px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Hind Siliguri', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .profile-cancel-btn:hover {
+            border-color: var(--text-light);
         }
 
         /* Search and Filter Bar */
@@ -809,6 +1059,69 @@
             border: 0;
         }
 
+        /* Profile section responsive */
+        @media (max-width: 768px) {
+            .profile-section {
+                top: auto;
+                bottom: 20px;
+                left: 20px;
+                padding: 8px 15px;
+            }
+
+            .profile-info {
+                min-width: 80px;
+            }
+
+            .profile-name {
+                font-size: 0.85rem;
+            }
+
+            .profile-email {
+                font-size: 0.65rem;
+            }
+
+            .edit-profile-btn {
+                padding: 6px 12px;
+                font-size: 0.7rem;
+            }
+
+            .theme-toggle {
+                top: 20px;
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-section {
+                left: 10px;
+                bottom: 10px;
+                padding: 6px 12px;
+                gap: 10px;
+            }
+
+            .profile-avatar {
+                width: 35px;
+                height: 35px;
+                font-size: 1.2rem;
+            }
+
+            .profile-info {
+                min-width: 60px;
+            }
+
+            .profile-name {
+                font-size: 0.75rem;
+            }
+
+            .profile-email {
+                display: none;
+            }
+
+            .edit-profile-btn {
+                display: none;
+            }
+        }
+
         /* Loading Animation */
         .loading {
             display: inline-block;
@@ -999,6 +1312,17 @@
     <a href="#main-content" class="sr-only" style="position:absolute;left:-9999px;">মূল কন্টেন্টে যান</a>
 
     <div class="container">
+        <!-- Profile Section -->
+        <div class="profile-section" onclick="openProfileModal()" role="button" tabindex="0" aria-label="প্রোফাইল দেখুন এবং সম্পাদনা করুন">
+            <img id="profileAvatarDisplay" class="profile-avatar" src="" alt="প্রোফাইল ছবি">
+            <div id="profileAvatarPlaceholder" class="profile-avatar" style="display: flex;">👤</div>
+            <div class="profile-info">
+                <span id="profileNameDisplay" class="profile-name">অতিথি ব্যবহারকারী</span>
+                <span id="profileEmailDisplay" class="profile-email">ইমেইল যোগ করুন</span>
+            </div>
+            <button class="edit-profile-btn" onclick="event.stopPropagation(); openProfileModal()">সম্পাদনা</button>
+        </div>
+
         <!-- Theme Toggle -->
         <button class="theme-toggle" onclick="toggleTheme()" aria-label="থিম পরিবর্তন করুন" title="থিম পরিবর্তন করুন">
             🌓
@@ -2150,11 +2474,171 @@
             });
         });
 
+        // Close profile modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const profileModal = document.getElementById('profileModal');
+                if (profileModal && profileModal.classList.contains('active')) {
+                    closeProfileModal();
+                }
+            }
+        });
+
+        // Profile Modal HTML
+        const profileModalHTML = `
+            <div id="profileModal" class="profile-modal" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
+                <div class="profile-modal-content">
+                    <div class="profile-modal-header">
+                        <h2 id="profileModalTitle">👤 প্রোফাইল তথ্য</h2>
+                        <p>আপনার নাম, ইমেইল এবং ছবি যোগ করুন</p>
+                    </div>
+                    <div class="profile-image-upload">
+                        <div class="profile-preview-container">
+                            <img id="profilePreview" class="profile-preview" src="" alt="প্রোফাইল পূর্বরূপ">
+                            <div id="profilePreviewPlaceholder" class="profile-preview" style="display: flex; align-items: center; justify-content: center; font-size: 3rem;">👤</div>
+                        </div>
+                        <label class="profile-upload-btn">
+                            📷 ছবি পরিবর্তন করুন
+                            <input type="file" id="profileImageInput" accept="image/*" style="display: none;" onchange="handleProfileImageUpload(event)">
+                        </label>
+                    </div>
+                    <div class="profile-form-group">
+                        <label for="profileNameInput">নাম</label>
+                        <input type="text" id="profileNameInput" placeholder="আপনার নাম লিখুন" maxlength="50">
+                    </div>
+                    <div class="profile-form-group">
+                        <label for="profileEmailInput">ইমেইল</label>
+                        <input type="email" id="profileEmailInput" placeholder="আপনার ইমেইল লিখুন" maxlength="100">
+                    </div>
+                    <div class="profile-actions">
+                        <button class="profile-cancel-btn" onclick="closeProfileModal()">বাতিল</button>
+                        <button class="profile-save-btn" onclick="saveProfile()">সংরক্ষণ করুন</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Add profile modal to DOM
+        document.body.insertAdjacentHTML('beforeend', profileModalHTML);
+
+        // Profile functions
+        let currentProfileImage = null;
+
+        function openProfileModal() {
+            const modal = document.getElementById('profileModal');
+            const nameInput = document.getElementById('profileNameInput');
+            const emailInput = document.getElementById('profileEmailInput');
+            const preview = document.getElementById('profilePreview');
+            const placeholder = document.getElementById('profilePreviewPlaceholder');
+
+            // Load current profile data
+            const profile = JSON.parse(localStorage.getItem('userProfile') || '{}');
+            nameInput.value = profile.name || '';
+            emailInput.value = profile.email || '';
+            currentProfileImage = profile.image || null;
+
+            if (currentProfileImage) {
+                preview.src = currentProfileImage;
+                preview.style.display = 'block';
+                placeholder.style.display = 'none';
+            } else {
+                preview.style.display = 'none';
+                placeholder.style.display = 'flex';
+            }
+
+            modal.classList.add('active');
+            nameInput.focus();
+        }
+
+        function closeProfileModal() {
+            const modal = document.getElementById('profileModal');
+            modal.classList.remove('active');
+        }
+
+        function handleProfileImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                if (file.size > 2 * 1024 * 1024) { // 2MB limit
+                    showToast('ছবি সাইজ ২MB এর কম হতে হবে!', 'warning');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentProfileImage = e.target.result;
+                    const preview = document.getElementById('profilePreview');
+                    const placeholder = document.getElementById('profilePreviewPlaceholder');
+                    preview.src = currentProfileImage;
+                    preview.style.display = 'block';
+                    placeholder.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveProfile() {
+            const name = document.getElementById('profileNameInput').value.trim();
+            const email = document.getElementById('profileEmailInput').value.trim();
+
+            if (!name) {
+                showToast('দয়া করে আপনার নাম লিখুন', 'warning');
+                return;
+            }
+
+            if (email && !isValidEmail(email)) {
+                showToast('দয়া করে একটি সঠিক ইমেইল লিখুন', 'warning');
+                return;
+            }
+
+            const profile = {
+                name: sanitizeInput(name),
+                email: sanitizeInput(email),
+                image: currentProfileImage,
+                updatedAt: new Date().toISOString()
+            };
+
+            localStorage.setItem('userProfile', JSON.stringify(profile));
+            updateProfileDisplay();
+            closeProfileModal();
+            showToast('প্রোফাইল সফলভাবে সংরক্ষিত হয়েছে! ✅', 'success');
+        }
+
+        function updateProfileDisplay() {
+            const profile = JSON.parse(localStorage.getItem('userProfile') || '{}');
+            const nameDisplay = document.getElementById('profileNameDisplay');
+            const emailDisplay = document.getElementById('profileEmailDisplay');
+            const avatarDisplay = document.getElementById('profileAvatarDisplay');
+            const avatarPlaceholder = document.getElementById('profileAvatarPlaceholder');
+
+            nameDisplay.textContent = profile.name || 'অতিথি ব্যবহারকারী';
+            emailDisplay.textContent = profile.email || 'ইমেইল যোগ করুন';
+
+            if (profile.image) {
+                avatarDisplay.src = profile.image;
+                avatarDisplay.style.display = 'block';
+                avatarPlaceholder.style.display = 'none';
+            } else {
+                avatarDisplay.style.display = 'none';
+                avatarPlaceholder.style.display = 'flex';
+            }
+        }
+
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        function sanitizeInput(input) {
+            const div = document.createElement('div');
+            div.textContent = input;
+            return div.innerHTML;
+        }
+
         // Initialize the app
         initTheme();
         loadFromLocalStorage();
         renderModules();
         updateDashboard();
+        updateProfileDisplay();
 
         // Service Worker Registration for offline support (if available)
         if ('serviceWorker' in navigator) {
