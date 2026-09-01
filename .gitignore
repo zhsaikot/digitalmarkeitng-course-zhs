@@ -1,1 +1,5 @@
-Nothing needs to be added to .gitignore since only a source file (index.html) was added without any build artifacts, dependencies, or temporary files.
+```
+# Logs and temp files
+*.log
+server.log
+```

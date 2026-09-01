@@ -418,6 +418,125 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
         }
+
+        .lecture-content {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .lecture-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .lecture-section {
+            margin-bottom: 25px;
+        }
+
+        .lecture-section h4 {
+            color: var(--text-dark);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .lecture-section h5 {
+            color: var(--primary-dark);
+            font-size: 1.1rem;
+            margin: 20px 0 10px 0;
+        }
+
+        .lecture-section p {
+            color: var(--text-dark);
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+
+        .lecture-section ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .lecture-section li {
+            color: var(--text-dark);
+            line-height: 1.8;
+            margin-bottom: 8px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .comparison-table thead {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .comparison-table tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        .persona-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border: 2px dashed var(--primary-color);
+        }
+
+        .persona-card p {
+            margin-bottom: 10px;
+        }
+
+        .persona-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .toggle-lecture-btn {
+            background: linear-gradient(135deg, var(--secondary-color), #db2777);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Hind Siliguri', sans-serif;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .toggle-lecture-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(236, 72, 153, 0.4);
+        }
+
+        .lecture-container {
+            display: none;
+        }
+
+        .lecture-container.show {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -461,6 +580,97 @@
                 id: 1,
                 title: "ডিজিটাল মার্কেটিং বেসিক",
                 badge: "মডিউল ১",
+                lectureContent: `
+                    <div class="lecture-content">
+                        <h3>📚 ডিজিটাল মার্কেটিং এবং টার্গেট অডিয়েন্স - বিস্তারিত পাঠ</h3>
+                        
+                        <div class="lecture-section">
+                            <h4>১. ডিজিটাল মার্কেটিং</h4>
+                            <p><strong>সংজ্ঞা:</strong> ইন্টারনেট এবং বৈদ্যুতিন মাধ্যম (মোবাইল, কম্পিউটার, সোশ্যাল মিডিয়া, সার্চ ইঞ্জিন) ব্যবহার করে কোনো পণ্য, সেবা বা ব্র্যান্ডের প্রচার ও বিক্রি বাড়ানোকে ডিজিটাল মার্কেটিং বলে।</p>
+                            
+                            <h5>ঐতিহ্যবাহী বনাম ডিজিটাল মার্কেটিং:</h5>
+                            <table class="comparison-table">
+                                <thead>
+                                    <tr>
+                                        <th>বিষয়</th>
+                                        <th>ঐতিহ্যবাহী (Traditional)</th>
+                                        <th>ডিজিটাল (Digital)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>মাধ্যম</td>
+                                        <td>টিভি, রেডিও, পত্র-পত্রিকা, বিলবোর্ড</td>
+                                        <td>সোশ্যাল মিডিয়া, Google, ইমেইল, ওয়েবসাইট</td>
+                                    </tr>
+                                    <tr>
+                                        <td>খরচ</td>
+                                        <td>তুলনামূলক অনেক বেশি</td>
+                                        <td>কম খরচে শুরু করা সম্ভব</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ফলাফল</td>
+                                        <td>সঠিক সময় পরিমাপ করা কঠিন</td>
+                                        <td>ট্র্যাকিং টুলস দিয়ে রিয়েল-টাইমে পরিমাপযোগ্য</td>
+                                    </tr>
+                                    <tr>
+                                        <td>অডিয়েন্স</td>
+                                        <td>নির্দিষ্ট মানুষকে টার্গেট করা যায় না</td>
+                                        <td>নির্দিষ্ট বয়স, স্থান ও আগ্রহ অনুযায়ী টার্গেট করা যায়</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <h5>ডিজিটাল মার্কেটিং এর সুবিধাসমূহ:</h5>
+                            <ul>
+                                <li>নির্দিষ্ট গ্রাহকের কাছে পৌঁছানোর সুযোগ</li>
+                                <li>যেকোনো বাজেট নিয়ে প্রচার শুরু করার স্বাধীনতা</li>
+                                <li>ডাটা ও অ্যানালিটিক্স দেখে ক্যাম্পেইন পরিবর্তন করার সুবিধা</li>
+                                <li>সরাসরি কাস্টমারের সাথে যোগাযোগ ও এনগেজমেন্ট তৈরি</li>
+                            </ul>
+                            
+                            <h5>প্রধান ডিজিটাল মার্কেটিং চ্যানেল:</h5>
+                            <ul>
+                                <li><strong>SEO (Search Engine Optimization):</strong> গুগলে বিনামূল্যে ওয়েবসাইট র‍্যাঙ্ক করা</li>
+                                <li><strong>SMM (Social Media Marketing):</strong> Facebook, Instagram, LinkedIn-এ প্রচার</li>
+                                <li><strong>PPC / Google Ads:</strong> সার্চ ইঞ্জিন বা ওয়েবসাইটে পেইড বিজ্ঞাপন প্রদান</li>
+                                <li><strong>Content Marketing:</strong> ব্লগ, ভিডিও বা ইনফোগ্রাফিকের মাধ্যমে তথ্য দিয়ে গ্রাহক আকর্ষণ</li>
+                                <li><strong>Email Marketing:</strong> সরাসরি ইমেইলের মাধ্যমে অফার ও তথ্য পাঠানো</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="lecture-section">
+                            <h4>২. টার্গেট অডিয়েন্স</h4>
+                            <p><strong>সংজ্ঞা:</strong> আপনার পণ্য বা সেবার জন্য সবচেয়ে উপযুক্ত এবং যারা এটি কিনতে সবচেয়ে বেশি আগ্রহী, সেই নির্দিষ্ট গ্রাহক দলকে টার্গেট অডিয়েন্স বলে।</p>
+                            
+                            <h5>অডিয়েন্স রিসার্চ করার উপায়:</h5>
+                            <ul>
+                                <li><strong>ডেমোগ্রাফিক ডাটা সংগ্রহ:</strong> বয়স, লিঙ্গ, পেশা, আয়ের পরিমাণ ও অবস্থান চিহ্নিত করা</li>
+                                <li><strong>সোশ্যাল মিডিয়া ইন্সাইটস:</strong> Facebook Page Insights বা Google Analytics ব্যবহার করা</li>
+                                <li><strong>প্রতিদ্বন্দী বিশ্লেষণ (Competitor Analysis):</strong> প্রতিদ্বন্দীদের গ্রাহকরা কী ধরনের বিষয় পছন্দ করছে তা দেখা</li>
+                                <li><strong>সার্ভে ও ফিডব্যাক:</strong> কাস্টমারদের সরাসরি প্রশ্ন বা পোলের মাধ্যমে মতামত নেওয়া</li>
+                            </ul>
+                            
+                            <h5>বাংলাদেশের অনলাইন ব্যবহারকারীদের আচরণ:</h5>
+                            <ul>
+                                <li><strong>সোশ্যাল মিডিয়া নির্ভরতা:</strong> বাংলাদেশে ফেসবুক সবচেয়ে জনপ্রিয় ও শক্তিশালী বিক্রয় মাধ্যম</li>
+                                <li><strong>ভিডিও কনটেন্টের জনপ্রিয়তা:</strong> মানুষ পড়ার চেয়ে Facebook Reels বা YouTube Shorts দেখতে বেশি পছন্দ করে</li>
+                                <li><strong>ক্যাশ অন ডেলিভারি (COD):</strong> অনলাইন কেনাকাটায় আগাম পেমেন্টের চেয়ে হাতে পেয়ে টাকা দেওয়ার প্রবণতা বেশি</li>
+                                <li><strong>মোবাইলকেন্দ্রিক ব্যবহার:</strong> সিংহভাগ ব্যবহারকারী স্মার্টফোনের মাধ্যমে ইন্টারনেট ব্যবহার করেন</li>
+                            </ul>
+                            
+                            <h5>কাস্টমার পার্সোনা তৈরি:</h5>
+                            <p>আপনার আদর্শ গ্রাহকের একটি কাল্পনিক চরিত্র তৈরি করাই হলো কাস্টমার পার্সোনা। উদাহরণস্বরূপ:</p>
+                            <div class="persona-card">
+                                <p><strong>নাম:</strong> রফিক (বয়স: ২৮)</p>
+                                <p><strong>পেশা:</strong> প্রাইভেট চাকরিজীবী (ঢাকা)</p>
+                                <p><strong>আগ্রহ:</strong> অনলাইন শপিং, গ্যাজেট ও ফ্যাশন</p>
+                                <p><strong>সমস্যা:</strong> দোকান ঘুরে কেনাকাটা করার সময় নেই</p>
+                                <p><strong>সমাধান:</strong> দ্রুত হোম ডেলিভারি ও ভালো কোয়ালিটির নিশ্চয়তা চায়</p>
+                            </div>
+                        </div>
+                    </div>
+                `,
                 sections: [
                     {
                         title: "ডিজিটাল মার্কেটিং কি?",
@@ -726,6 +936,13 @@
             localStorage.setItem('digitalMarketingTracker', JSON.stringify(appData));
         }
 
+        function toggleLecture(moduleId) {
+            const lectureElement = document.getElementById(`lecture-${moduleId}`);
+            if (lectureElement) {
+                lectureElement.classList.toggle('show');
+            }
+        }
+
         function toggleItem(moduleId, sectionIndex, itemIndex) {
             const key = `${moduleId}-${sectionIndex}-${itemIndex}`;
             appData.completedItems[key] = !appData.completedItems[key];
@@ -935,11 +1152,15 @@
                     }
                 }
 
+                const hasLecture = module.lectureContent ? true : false;
+                
                 moduleCard.innerHTML = `
                     <div class="module-header">
                         <h2 class="module-title">${module.title}</h2>
                         <span class="module-badge">${module.badge}</span>
                     </div>
+                    ${hasLecture ? `<button class="toggle-lecture-btn" onclick="toggleLecture(${module.id})">📖 পাঠ দেখুন/লুকান</button>` : ''}
+                    ${hasLecture ? `<div id="lecture-${module.id}" class="lecture-container">${module.lectureContent}</div>` : ''}
                     ${sectionsHTML}
                     <div class="quiz-section">
                         <h4>🎯 ছোট কুইজ</h4>
